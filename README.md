@@ -111,3 +111,34 @@ itself. Placeholders are written between guillemets, `«like this»`.
 object as plain JSON; `check.js` renders the page in headless Chrome and fails loudly on a JS
 error, an empty pane or a stray figure. See `rtw-collection-case-study/README.md` for the
 full how-to.
+
+---
+
+## `sales-review/`
+
+**Sales Review — the daily / weekly / monthly retail sales dashboard for a market, with
+receipt, IMC and top-seller views.** A blank of the MLB Hong Kong daily board: complete
+layout, toggles, popups and formulas, every business figure removed.
+
+A single self-contained HTML file. No build step, no server, no package install —
+double-click `sales-review/index.html` and it opens.
+
+| Tab | What it shows |
+|---|---|
+| **Sales Review** | Three period boxes (Yesterday / WTD·LW / MTD·LM·YTD) with Sales, YoY, Regular vs Outlet and ACC vs RTW, an All/MLB-only and Excl/Incl-clearance toggle, a Key Insight card (dropped stores & categories), and a by-store table with a per-store 📊 detail popup |
+| **Monthly Sales** | A store × month matrix and a By Store × Cat view, TY-vs-LY with sales / discount and channel / category cuts |
+| **Last 12 Weeks** | The same, weekly |
+| **By Season ST & SOH** | Sell-through % and closing SOH by season aging, RTW vs ACC |
+| **IMC Review** | The IMC launch calendar with per-launch order / sold / ST%, and IMC vs non-IMC + Sales & Order share |
+| **Customer Region** | Local vs tourist weekly trend, ATV and mix |
+| **In-season Intake & ST** | Order → received → sold by category |
+| **Top Seller** | Top styles / SKUs by period with SOH and weeks-cover |
+
+### Filling it in
+
+Everything renders from JS data objects near the top of the file — `salesData`,
+`trendData`, `monthly`/`weeklyStoreData`, `storeTargets`, `brandData`, `agingData`, `IMC`,
+`SHARE`, `CRD`, `INS`, `txnData`, `cat3Data`, `topSellerData` and `stores`. Replace the
+zeros with your market's numbers and the page fills itself. Store names are generic
+placeholders (`S01`, `S02`…) keyed to internal ids; top-seller styles show as
+`STYLE-01` / «Style 01 short name». Period date-range labels are left as examples.
