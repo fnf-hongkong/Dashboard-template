@@ -198,3 +198,37 @@ A banner at the top marks the page as a layout demo. Delete that block once the 
 
 F&F staff can view the rendered template here (F&F login required):
 <https://dcsai.fnf.co.kr/server/quick-dashboard/product-case-study-template>
+
+---
+
+## `rtw-shop-sales-vm-zoning-case-study/`
+
+**RTW Shop Sales / VM Zoning — a by-store review: how each door is trading, who is buying in
+it, and how its display zones are selling.**
+
+A single self-contained HTML file — double-click
+`rtw-shop-sales-vm-zoning-case-study/index.html` and it opens on the store page; the Overview
+is one click away, or straight there with `#ov`.
+
+**Overview** is the by-store table: every door on sales, WtW, YoY, share, IMC and a 4-week
+sparkline, grouped Total / HK / MC / Online with sub-totals, and a scope switch across
+All RTW · TS · WJ · WP.
+
+**One store page** carries the seven sections every door repeats: Insight & action · weekly
+sales trend TY vs LY · by lifestyle · the gender / season / category mix · IMC review · top
+sellers by region and gender · display-zoning sales, opening with the APP Main Wall card and
+one card per zone · and buying behaviour, with the outfit-look rows.
+
+**Removed** — every money value, percentage, count, rank and share, in the text and in the
+tooltips; the chart geometry, so no bar or line is drawn at a real proportion; 143 photographs
+and 6 internal-CDN thumbnails, replaced by inline placeholders (13 MB → 569 KB); 78 style
+codes and 132 product names; all 15 trading names, with every door now a generic `S01`…`S15`;
+and the written conclusions, which became writing prompts.
+
+**Kept on purpose** — the calendar labels, the door list with its region and archetype tags,
+the zone and sub-category names, every legend, and the composition visuals: donut rings and
+the region / age strips are redrawn as an even split rather than erased, because an empty ring
+reads as broken rather than blank.
+
+`check.js` renders the page and fails on a surviving figure, a real photo or name, a donut
+that draws no arc, or a composition segment at zero width. See the folder's own README.
