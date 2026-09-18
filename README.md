@@ -6,6 +6,10 @@ Each folder holds one dashboard as a **blank template**: the complete layout, st
 chart logic, with every business figure removed. Open the HTML, read the structure, fill in
 the data blocks, and the page fills itself.
 
+`product-case-study/` is the exception. It was hand-built rather than rendered from a data
+object, so its figures live in the markup where they are drawn — read it as a layout
+reference and wire your own generator to it, rather than expecting a data block to drop in.
+
 ---
 
 ## `customer-profile/`
@@ -142,3 +146,55 @@ Everything renders from JS data objects near the top of the file — `salesData`
 zeros with your market's numbers and the page fills itself. Store names are generic
 placeholders (`S01`, `S02`…) keyed to internal ids; top-seller styles show as
 `STYLE-01` / «Style 01 short name». Period date-range labels are left as examples.
+
+---
+
+## `product-case-study/`
+
+**Product Case Study — a single-style deep dive: one product, one launch window, read across
+thirteen cards.**
+
+A single self-contained HTML file with no build step and no external requests at all —
+double-click `product-case-study/index.html` and it opens.
+
+| Card | What it shows |
+|---|---|
+| **Rank in category** | The style placed in a top-10 of its category by net sales, its own row highlighted, closing on rank by value vs by units and the style directly below it |
+| **By shop** | Every selling door as a stacked bar segmented by colourway, then the same doors read again as basket penetration — share of that door's baskets holding the style, which corrects for store size |
+| **Colour** | Share donut, per-colourway depth-and-reach cards with product shots, and allocation against sell-through ending in weeks of cover |
+| **Size** | Allocation vs sell-through down the size run, the style's size curve against the scaled category curve, and one curve per colourway for reading where size needs differ by colour |
+| **Who is buying it** | Age band on a radar against the chain baseline, pies for gender / residency / customer code, per-gender age bars, a buyer-skew strip and a caveat on identity capture |
+| **Basket** | Attach-rate tiles, attach rate by category against the chain, units-per-basket distribution, and same-receipt co-purchase ranked by lift so frequency and affinity are not confused |
+| **Opening comparison** | Every launch in the season measured over *its own* first seven days, so a style that landed earlier is judged on the same footing |
+
+Unlike the other two, this page is **hand-built rather than data-driven** — the figures live in
+the markup at the point where they are drawn, and the charts are SVG written out coordinate by
+coordinate. Blanking it meant replacing the figures in place, so there is no data block to
+fill. Read it for the structure and the chart vocabulary and wire your own generator to it.
+
+### What was removed, and what was deliberately kept
+
+**Removed** — every figure in visible text, tooltips and `alt` / `data-cap` attributes,
+replaced by `•` placeholders that keep the original width; all 77 bar widths and 15
+stacked-bar splits, replaced by one fixed decorative sequence; all 7 SVG charts, rebuilt
+geometrically (equal donut and pie slices, synthetic line curves, a fixed radar shape with its
+dots and labels moved to match); the colour-coded direction signals, so nothing still reads as
+good or bad; the identifiers — 24 style codes, 46 product names, 20 shop codes, 16
+colourway codes, the brand name, the source filename and the customer-code prefixes; and all
+41 photographs, replaced by one inline placeholder graphic, which also removed the in-store
+VMD image that carried the real style name in its artwork and 15 thumbnails pointing at an
+internal F&F CDN. That took the file from 2.5 MB to 129 KB.
+
+**Kept on purpose** — all thirteen cards with every heading, caption and narrative note block,
+and the tooltip on every bar and chart point, blanked inside rather than stripped, so the page
+documents what each element is meant to say. The SVG is still real SVG with real axes, grids
+and legends; only the data coordinates changed. Colour words, category words and period labels
+stay, as does every image slot at its original size with its lightbox wiring intact, so the
+layout keeps the density the real page has.
+
+A banner at the top marks the page as a layout demo. Delete that block once the data is in.
+
+### Internal preview
+
+F&F staff can view the rendered template here (F&F login required):
+<https://dcsai.fnf.co.kr/server/quick-dashboard/product-case-study-template>
