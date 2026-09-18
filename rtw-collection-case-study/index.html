@@ -1,0 +1,1535 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MLB HK — RTW Collection Case Study (template)</title>
+<style>/* MLB HK — RTW COLLECTION CASE STUDY — template
+   Brown / beige collection-review palette. Swap the :root values below to re-tone the
+   page for another collection family; nothing else in the stylesheet is collection-specific. */
+:root{
+  --ground:#F2ECE3; --paper:#FBF8F3; --card:#FFFFFF;
+  --ink:#2E2823; --muted:#6E6156; --faint:#9C8F81;
+  --cocoa:#6B4F3F; --cocoa-deep:#4A362A; --clay:#A98B72;
+  --sand:#E6DACA; --stone:#CDBFAC; --line:#E4D9C9; --sage:#8A9880;
+  --sans:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+  --serif:Georgia,"Times New Roman",serif;
+  /* series — warm, all sampled to sit inside the brown/beige family */
+  --slv:#C98A3E; --sht:#6B4F3F; --lng:#8A9880;
+  /* status — muted so they do not fight the ground */
+  --st:#B04A32;   /* the sell-through accent, used by the CUM ST% axis row */
+  --bad:#B04A32; --warn:#C98A3E; --ok:#7E8C6A; --good:#4F7A52;
+  --loc:#6B4F3F; --mai:#B07A4A; --oth:#A98B72;
+  --shadow:0 1px 2px rgba(74,54,42,.05),0 2px 6px rgba(74,54,42,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--ground);color:var(--ink);font:14px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:-.01em}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px 72px}
+header.top{background:var(--cocoa-deep);color:#F6EFE5;padding:30px 0 24px;
+  background-image:radial-gradient(120% 140% at 12% 0%,#6B4F3F 0%,#4A362A 55%,#3A2A20 100%)}
+.kicker{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--clay);font-weight:700;margin-bottom:9px}
+.brandrow{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.brandrow h1{font-size:36px;font-weight:800;letter-spacing:.02em;color:#FBF8F3;line-height:1}
+.brandrow h1 em{display:block;font:400 17px/1.2 var(--serif);font-style:italic;color:var(--clay);
+  letter-spacing:.04em;margin-top:8px}
+.brandrow .sub{color:#D6C6B2;font-size:12.5px;margin-left:auto;text-align:right;line-height:1.6}
+.brandrow .sub b{color:#FBF8F3;font-weight:700}
+
+nav.tabs{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line);
+  box-shadow:0 1px 6px rgba(74,54,42,.06)}
+nav.tabs .inner{max-width:1280px;margin:0 auto;padding:0 24px;display:flex;gap:4px;overflow-x:auto}
+nav.tabs button{appearance:none;background:none;border:0;border-bottom:3px solid transparent;
+  padding:14px 18px;font:700 13px/1 var(--sans);color:var(--faint);cursor:pointer;white-space:nowrap;
+  display:flex;align-items:center;gap:8px;letter-spacing:.02em}
+nav.tabs button .n{font:700 10px/1 var(--sans);letter-spacing:.14em;color:var(--stone)}
+nav.tabs button:hover{color:var(--cocoa)}
+nav.tabs button.on{color:var(--cocoa-deep);border-bottom-color:var(--cocoa)}
+nav.tabs button.on .n{color:var(--clay)}
+section.tab{display:none;padding-top:26px}
+section.tab.on{display:block}
+
+/* ---------- cards ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+  padding:20px 22px;margin-bottom:20px}
+.card>h3{font-size:15.5px;color:var(--cocoa-deep);margin-bottom:3px}
+.card>.cs{color:var(--muted);font-size:12px;margin-bottom:16px;max-width:112ch}
+.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--clay);
+  margin:32px 0 12px;display:flex;align-items:center;gap:12px}
+.eyebrow:after{content:"";flex:1;height:1px;background:var(--line)}
+.eyebrow:first-child{margin-top:0}
+.grid{display:grid;gap:20px}
+.grid>*{min-width:0}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g23{grid-template-columns:1.4fr 1fr}
+/* pair of cards whose content lengths differ - let each end where it ends, no stretched blank */
+.gtop{align-items:start}
+@media(max-width:1000px){.g2,.g3,.g23{grid-template-columns:1fr}}
+
+/* ---------- tiles ---------- */
+/* auto-fit so a row of 4 fills the width; 6 tiles still land on one row at 1236px */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+@media(max-width:1050px){.tiles{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+.tile .l{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.tile .v{font-size:26px;font-weight:800;color:var(--cocoa-deep);margin:7px 0 2px;letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums}
+.tile .f{font-size:11.5px;color:var(--muted)}
+
+/* ---------- tables ---------- */
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);font-size:12.5px}
+th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;
+  text-align:center;background:var(--paper)}
+th:first-child,td:first-child{text-align:left}
+td{text-align:center;white-space:nowrap}
+td.nm{text-align:left;white-space:normal;min-width:150px}
+tbody tr:hover{background:#FBF6EE}
+tr.tot td{font-weight:800;background:var(--sand);border-top:2px solid var(--stone);border-bottom:0;
+  color:var(--cocoa-deep)}
+.scrollx{overflow-x:auto}
+.scrollx table{min-width:max-content}
+
+/* ---------- bar in cell ---------- */
+.bw{position:relative;height:19px;background:#F0E9DE;border-radius:4px;min-width:92px;overflow:hidden}
+.bw>i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;display:block}
+.bw>b{position:absolute;top:0;bottom:0;display:flex;align-items:center;font-size:10.5px;font-weight:700;
+  font-variant-numeric:tabular-nums}
+.bw>b.in{color:#FBF8F3}
+.bw>b.out{color:var(--ink);padding-left:5px}
+
+/* ---------- chips ---------- */
+.tag{display:inline-block;border-radius:5px;padding:2px 8px;font-size:10.5px;font-weight:700;letter-spacing:.02em}
+.lg{display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--muted);margin-bottom:12px}
+.lg i{width:11px;height:11px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:-1px}
+.cnt{display:inline-block;background:var(--sand);color:var(--cocoa);border-radius:5px;padding:1px 7px;
+  font-size:10.5px;font-weight:700;margin-left:7px}
+.pill{display:inline-block;background:var(--cocoa);color:#FBF8F3;border-radius:999px;padding:3px 11px;
+  font-size:10.5px;font-weight:700;letter-spacing:.04em}
+
+/* ---------- product card ---------- */
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.p5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:980px){.pgrid{grid-template-columns:repeat(2,1fr)}.p5{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.pgrid,.p5{grid-template-columns:1fr}}
+.pc{border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;
+  display:flex;flex-direction:column}
+.pc .ph{position:relative;width:100%;padding-top:104%;background:var(--paper)}
+.pc .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.pc .rk{position:absolute;left:9px;top:9px;background:var(--cocoa-deep);color:#FBF8F3;font-size:11px;
+  font-weight:800;border-radius:6px;padding:2px 8px;z-index:2}
+.pc .sl{position:absolute;right:9px;top:9px;font-size:9.5px;font-weight:700;border-radius:5px;padding:2px 7px;
+  color:#FBF8F3;z-index:2}
+.pc .bd{padding:11px 13px 13px;display:flex;flex-direction:column;gap:5px;flex:1}
+.pc .cd{font-size:10px;color:var(--faint);font-weight:700;letter-spacing:.06em}
+.pc .nm{font-size:12.5px;font-weight:700;line-height:1.32;color:var(--cocoa-deep)}
+.pc .mt{display:flex;gap:11px;font-size:11.5px;color:var(--muted);margin-top:auto;flex-wrap:wrap}
+.pc .mt b{color:var(--cocoa-deep);font-variant-numeric:tabular-nums}
+.sw{display:flex;gap:5px;margin-top:3px}
+.sw i{width:15px;height:15px;border-radius:50%;border:1px solid rgba(74,54,42,.22);display:inline-block}
+
+/* ---------- svg chart ---------- */
+.cw{width:100%}
+.cw svg{width:100%;height:auto;display:block;overflow:visible}
+.ax{font-size:10.5px;fill:var(--muted)}
+.axv{font-size:10.5px;fill:var(--faint);font-variant-numeric:tabular-nums}
+.vl{font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.gl{stroke:#EFE7DA;stroke-width:1}
+.bl{stroke:var(--stone);stroke-width:1}
+
+/* ---------- read box ---------- */
+.read{background:var(--cocoa-deep);background-image:radial-gradient(120% 160% at 8% 0%,#63483A 0%,#4A362A 60%,#3A2A20 100%);
+  color:#EFE6DA;border-radius:14px;padding:22px 24px;margin-bottom:20px}
+.read h3{color:#FBF8F3;font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:9px}
+.read .hl{color:#F0D8B4;font:400 15px/1.6 var(--serif);margin-bottom:18px}
+.read .hl b{font-weight:700;color:#FBF8F3;font-style:normal}
+.read .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.read .cols{grid-template-columns:1fr}}
+.read .cols h4{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--clay);margin-bottom:9px}
+.read ul{margin:0;padding-left:16px}
+.read li{margin-bottom:8px;font-size:12.5px;line-height:1.6;color:#E2D6C6}
+.read li b{color:#FBF8F3}
+.read .act{margin-top:18px;padding-top:14px;border-top:1px solid rgba(233,220,201,.18);font-size:12.5px;
+  color:#F0D8B4;font-weight:700}
+.read .pv{margin-top:10px;font-size:11px;color:#9C8F81}
+
+/* ---------- VOC power ranking ---------- */
+.rank{display:flex;flex-direction:column;gap:12px}
+.rc{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow);cursor:pointer;transition:border-color .12s,box-shadow .12s}
+.rc:hover{border-color:var(--clay);box-shadow:0 3px 14px rgba(74,54,42,.1)}
+.rc>.hd{display:grid;grid-template-columns:44px 74px 1fr auto auto;gap:16px;align-items:center;padding:14px 18px}
+@media(max-width:820px){.rc>.hd{grid-template-columns:38px 60px 1fr;gap:12px}.rc .scores,.rc .ov{grid-column:1/-1}}
+.rc .pos{font:800 25px/1 var(--serif);color:var(--stone);text-align:center}
+.rc .thumb{width:74px;height:74px;border-radius:10px;background:var(--paper);border:1px solid var(--line);
+  position:relative;overflow:hidden}
+.rc .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.rc .ttl{font-size:14.5px;font-weight:700;color:var(--cocoa-deep);line-height:1.3}
+.rc .meta{font-size:11px;color:var(--faint);margin-top:3px;letter-spacing:.03em}
+.rc .callout{display:inline-block;margin-top:7px;background:var(--sand);color:var(--cocoa);border-radius:6px;
+  padding:3px 9px;font-size:11px;font-weight:700}
+.rc .scores{display:flex;gap:14px}
+.rc .sc{text-align:center;min-width:52px}
+.rc .sc .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.rc .sc .v{font:800 18px/1.2 var(--sans);font-variant-numeric:tabular-nums}
+.rc .ov{text-align:center;padding-left:16px;border-left:1px solid var(--line);min-width:88px}
+.rc .ov .v{font:800 30px/1 var(--sans);letter-spacing:-.02em}
+.rc .ov .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-top:5px}
+.rc .body{display:none;border-top:1px solid var(--line);background:var(--paper);padding:16px 18px}
+.rc.open .body{display:block}
+.rc .why{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:820px){.rc .why{grid-template-columns:1fr}}
+.rc .why>div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.rc .why h5{font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay);margin-bottom:5px}
+.rc .why p{margin:0;font-size:12.5px;line-height:1.55;color:var(--ink)}
+.tpl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--cocoa);
+  margin:14px 0 8px;display:flex;align-items:center}
+.notes{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 18px}
+@media(max-width:820px){.notes{grid-template-columns:1fr}}
+.note{font-size:12px;line-height:1.55;color:#4B403A;display:flex;gap:9px}
+.note s{text-decoration:none;font-weight:700;color:var(--clay);font-size:10.5px;min-width:28px;padding-top:1px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.tags span{background:var(--paper);border:1px solid var(--line);color:var(--muted);border-radius:999px;
+  padding:2px 9px;font-size:10.5px;font-weight:600}
+.hintline{font-size:11.5px;color:var(--faint);text-align:center;margin-top:12px;font-style:italic}
+
+/* ---------- wins / issues ---------- */
+.wi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.wi h3{font-size:13.5px;margin-bottom:14px;display:flex;align-items:center;gap:9px}
+.wi.win h3{color:var(--good)}
+.wi.iss h3{color:var(--bad)}
+/* ---------- wins & issues: ranked theme bars ---------- */
+.wi h3{display:flex;align-items:center;gap:8px}
+.wmk{width:20px;height:20px;border-radius:6px;flex:none;display:flex;align-items:center;
+  justify-content:center;color:#fff;font-size:12px;font-weight:800}
+.wl2{display:flex;flex-direction:column;gap:14px}
+.wr{display:flex;gap:11px;align-items:flex-start}
+.wr .ic{font-size:17px;line-height:1.2;flex:none;width:24px;text-align:center}
+.wr .bd{flex:1;min-width:0}
+.wr .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:5px}
+.wr .lb{font-size:12.5px;font-weight:700;color:var(--cocoa-deep);line-height:1.35}
+.wr .ct{margin-left:auto;font-size:12px;font-weight:800;white-space:nowrap}
+.wr .tr{height:8px;border-radius:999px;background:var(--sand);overflow:hidden}
+.wr .tr span{display:block;height:100%;border-radius:999px}
+.wr .sc{font-size:10.5px;color:var(--faint);margin-top:5px;letter-spacing:.02em}
+/* the common-thread callout */
+.callout{background:#FFF8EC;border:1px solid #EFDCBB;border-radius:14px;padding:17px 19px;margin-top:16px}
+.callout h4{font-size:14px;font-weight:800;color:#8A5A18;margin:0 0 13px;display:flex;gap:8px;align-items:center}
+.cocards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.cocard{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+.cocard .cc{font-size:12.5px;font-weight:800;color:var(--cocoa);display:flex;gap:7px;align-items:center}
+.cocard .cn{font-size:10.5px;color:var(--muted);margin:3px 0 8px}
+.cocard .cq{font-size:11.5px;line-height:1.55;color:var(--ink)}
+.cocard .cq b{color:var(--bad);font-weight:700}
+.wl{display:flex;flex-direction:column;gap:11px}
+.wl>div{display:flex;gap:11px;align-items:flex-start}
+.wl .mk{width:22px;height:22px;border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:#FBF8F3}
+.wl .tx{font-size:12.5px;line-height:1.55}
+.wl .tx b{color:var(--cocoa-deep)}
+.wl .tx em{font-style:normal;color:var(--faint);font-size:11.5px;display:block;margin-top:2px}
+
+/* ---------- combo ---------- */
+.combo{display:flex;flex-direction:column;gap:12px}
+.cb{display:grid;grid-template-columns:34px 1fr auto;gap:16px;align-items:center;background:var(--card);
+  border:1px solid var(--line);border-radius:12px;padding:12px 16px;box-shadow:var(--shadow)}
+@media(max-width:760px){.cb{grid-template-columns:1fr}}
+.cb .pos{font:800 20px/1 var(--serif);color:var(--stone);text-align:center}
+.cb .pair{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cb .it{display:flex;align-items:center;gap:10px;min-width:0}
+.cb .it .im{width:52px;height:52px;border-radius:9px;background:var(--paper);border:1px solid var(--line);
+  position:relative;overflow:hidden;flex:none}
+.cb .it .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.cb .it .tx{min-width:0}
+.cb .it .n{font-size:12.5px;font-weight:700;color:var(--cocoa-deep);line-height:1.3}
+.cb .it .c{font-size:10.5px;color:var(--faint);letter-spacing:.04em;margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb .plus{font:800 17px/1 var(--sans);color:var(--clay);flex:none}
+.cb .n2{text-align:right}
+.cb .n2 .v{font:800 20px/1 var(--sans);color:var(--cocoa-deep);font-variant-numeric:tabular-nums}
+.cb .n2 .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-top:3px}
+/* --- REV8b: combo rows inside the 3-up grid --- */
+.g3 .cb{grid-template-columns:24px minmax(0,1fr);gap:8px 10px;padding:10px 12px}
+.g3 .cb .pos{font-size:16px}
+.g3 .cb .pair{gap:8px}
+/* these .g3 overrides beat the base .cb rules on specificity - change the image size HERE */
+.g3 .cb .it{grid-template-columns:18px 80px 1fr;gap:10px}
+.g3 .cb .it .im{width:80px;height:80px;border-radius:11px}
+.g3 .cb .it .n{font-size:12px}
+/* receipts + profile bubble move under the pair and read left-to-right, which is what frees
+   the horizontal room the 3-up layout needs */
+.g3 .cb .n2{grid-column:2;text-align:left;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.g3 .cb .n2 .v{font-size:16px}
+.g3 .cb .n2 .k{margin-top:0;font-size:9.5px}
+
+.foot{color:var(--muted);font-size:11.5px;margin-top:11px}
+.mini{font-size:11px;color:var(--faint)}
+.hint{font-size:11.5px;color:var(--muted);margin-bottom:12px}
+
+/* ---------- compact segment rows ---------- */
+.seg{display:grid;grid-template-columns:128px 1fr;gap:16px;align-items:center;padding:14px 0;
+  border-bottom:1px solid var(--line)}
+.seg:last-of-type{border-bottom:0}
+@media(max-width:860px){.seg{grid-template-columns:1fr}}
+.sgl .n{font-size:13.5px;font-weight:700;color:var(--cocoa-deep)}
+.sgl .s{font-size:10.5px;color:var(--faint);letter-spacing:.04em;margin-top:2px}
+.sgl .q{font-size:11.5px;color:var(--muted);margin-top:5px;font-variant-numeric:tabular-nums}
+.sgi{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding-top:9px}
+@media(max-width:1080px){.sgi{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:620px){.sgi{grid-template-columns:repeat(2,1fr)}}
+.si{display:flex;gap:9px;align-items:center;min-width:0}
+.si .im{width:52px;height:52px;border-radius:9px;background:var(--paper);border:1px solid var(--line);
+  position:relative;overflow:hidden;flex:none}
+.si .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.si .im .rk{position:absolute;left:3px;top:3px;background:var(--cocoa-deep);color:#FBF8F3;font-size:9px;
+  font-weight:800;border-radius:4px;padding:0 4px;z-index:2;line-height:14px}
+.si .tx{min-width:0}
+.si .tx .n{font-size:11.5px;font-weight:700;color:var(--cocoa-deep);line-height:1.25;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.si .tx .c{font-size:10px;color:var(--faint);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.si .tx .v{font-size:10.5px;color:var(--muted);margin-top:2px;font-variant-numeric:tabular-nums}
+
+/* ---------- rev3: colourway strip inside the style table ---------- */
+.cim{display:flex;gap:4px}
+.cim span{width:34px;height:42px;border-radius:6px;background:var(--paper);border:1px solid var(--line);
+  position:relative;overflow:hidden;display:block;flex:none}
+.cim img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.bub{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.bub span{border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.02em}
+.bub .fit{background:var(--sand);color:var(--cocoa)}
+
+/* ---------- rev3: store archetype + region bar ---------- */
+.arch{display:inline-block;border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700;white-space:nowrap}
+.rbar{display:flex;height:22px;border-radius:6px;overflow:hidden;background:#F0E9DE;min-width:112px}
+.rbar span{display:flex;align-items:center;justify-content:center;color:#FBF8F3;font-size:10.5px;
+  font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ---------- rev3: size-curve key notes ---------- */
+.notes2{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+@media(max-width:1000px){.notes2{grid-template-columns:1fr}}
+.notes2>div{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--clay);
+  border-radius:9px;padding:11px 13px}
+.notes2 h5{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--clay);margin-bottom:5px}
+.notes2 p{margin:0;font-size:12px;line-height:1.55;color:var(--ink)}
+.notes2 p b{color:var(--cocoa-deep)}
+
+/* ---------- rev3: segment standout ---------- */
+/* ring with box-shadow, not border+negative margin - the latter pushed the grid 9px wide */
+.si.star{position:relative;background:#FFFAF0;border-radius:10px;box-shadow:0 0 0 1.5px #E4C88A;
+  padding:7px 8px}
+.si.star .stx{position:absolute;top:-8px;left:8px;background:#C08A2E;color:#FFF;font-size:9px;
+  font-weight:800;letter-spacing:.04em;border-radius:5px;padding:1px 7px;white-space:nowrap}
+.si.star .im{border-color:#E4C88A}
+
+/* ---------- rev3: combo profile bubble ---------- */
+/* scoped to .cb, not .cb .n2 - the pill moved into .cfoot and lost every rule when it was
+   still tied to the old wrapper */
+.cb .pb{display:inline-block;border-radius:999px;padding:2px 9px;font-size:10px;font-weight:700;
+  margin-bottom:6px;white-space:nowrap}
+.cb .it .im .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:var(--stone);letter-spacing:.06em}
+
+/* ---------- rev4: bigger colourway tiles + click-to-enlarge ---------- */
+.cim span{width:54px;height:66px;border-radius:7px}
+.cim span.zm{cursor:zoom-in;transition:border-color .12s,box-shadow .12s}
+.cim span.zm:hover{border-color:var(--clay);box-shadow:0 2px 8px rgba(74,54,42,.16)}
+.zoomcard{position:fixed;z-index:200;width:300px;background:var(--card);border:1px solid var(--stone);
+  border-radius:14px;box-shadow:0 12px 34px rgba(46,40,35,.28);padding:10px;overflow:hidden}
+.zoomcard img{display:block;width:100%;height:300px;object-fit:contain;background:var(--paper);border-radius:9px}
+.zoomcard .cap{font-size:11.5px;line-height:1.45;color:var(--cocoa-deep);font-weight:650;padding:9px 4px 2px}
+.zoomcard .x{position:absolute;top:8px;right:8px;width:24px;height:24px;border:0;border-radius:50%;
+  background:rgba(46,40,35,.62);color:#FBF8F3;font-size:15px;line-height:1;cursor:pointer}
+.zoomcard .x:hover{background:var(--cocoa-deep)}
+
+/* ---------- rev4: in-store display photo beside the trend chart ---------- */
+.trendrow{display:grid;grid-template-columns:270px 1fr;gap:22px;align-items:start}
+.trendrow.nodisp{grid-template-columns:1fr}
+@media(max-width:900px){.trendrow{grid-template-columns:1fr}}
+.disp{margin:0}
+.disp img{display:block;width:100%;border-radius:11px;border:1px solid var(--line)}
+.disp figcaption{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  font-weight:700;margin-top:9px;text-align:center}
+/* the cumulative-ST chart that used to share this row is gone - ST% rides the week axis */
+.trendmain{min-width:0}
+
+/* rev4: the ranking header gained ST% and sales-rank, so it needs two more auto tracks */
+.rc>.hd{grid-template-columns:44px 74px 1fr auto auto auto auto}
+@media(max-width:1180px){.rc>.hd{grid-template-columns:44px 74px 1fr;row-gap:14px}
+  .rc .scores,.rc .ov{grid-column:auto}}
+
+/* ---------- base-vs-penetration correlation panel ---------- */
+.corrgrid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:860px){.corrgrid{grid-template-columns:1fr}}
+.crow{display:grid;grid-template-columns:46px 1fr;gap:10px;align-items:center;margin-bottom:7px}
+.crow .lb{font-size:12px;font-weight:700;color:var(--cocoa-deep)}
+/* the by-colour card is height-matched to the cohort card, so pin its note to the bottom */
+.grid.g23>.card{display:flex;flex-direction:column}
+.grid.g23>.card>.scrollx{flex:1}
+.grid.g23>.card>.foot{margin-top:auto;padding-top:12px}
+
+/* ---------- rev6: qty + ST charts side by side ---------- */
+.twochart{display:grid;grid-template-columns:1.55fr 1fr;gap:24px;align-items:start}
+@media(max-width:1080px){.twochart{grid-template-columns:1fr}}
+
+/* ---------- the base-category bar with the collection slice filled in ---------- */
+.wbars{display:flex;flex-direction:column;gap:8px}
+.wrow{display:grid;grid-template-columns:44px 1fr 52px 78px;gap:12px;align-items:center}
+.wrow .lb{font-size:12.5px;font-weight:700;color:var(--cocoa-deep)}
+.wtrack{position:relative;height:24px;background:#F6F1E8;border-radius:5px}
+.wtrack .tot{position:absolute;left:0;top:0;bottom:0;background:#E4D9C9;border-radius:5px}
+.wtrack .wel{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
+.wtrack b{position:absolute;top:0;bottom:0;display:flex;align-items:center;padding-left:9px;
+  font-size:11.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.wrow .pn{font-size:14px;font-weight:800;text-align:right;font-variant-numeric:tabular-nums}
+.wrow .wa{font-size:11.5px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:700px){.wrow{grid-template-columns:38px 1fr 46px}.wrow .wa{display:none}}
+
+/* ---------- rev7: combo rows stacked, images x1.3, equal card heights ---------- */
+.cb{grid-template-columns:34px 1fr;align-items:start;padding:14px 16px}
+.cb .stack{display:flex;flex-direction:column;gap:8px;min-width:0}
+.cb .pos{padding-top:22px}
+.cb .it{display:grid;grid-template-columns:20px 92px 1fr;gap:12px;align-items:center;min-width:0}
+.cb .it .plus{font:800 17px/1 var(--sans);color:var(--clay);text-align:center}
+.cb .it .im{width:92px;height:92px;border-radius:11px}
+.cb .it .n{font-size:13px;font-weight:700;line-height:1.3;white-space:normal;overflow-wrap:anywhere}
+.cb .cfoot{display:flex;align-items:center;gap:10px;margin-top:2px;padding-left:30px}
+.cb .cfoot .pb{margin-bottom:0}
+.cb .cfoot .v{font:800 17px/1 var(--sans);color:var(--cocoa-deep);font-variant-numeric:tabular-nums}
+.cb .cfoot .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.combo{display:flex;flex-direction:column;gap:12px}
+.combo .cb{height:100%}
+
+/* ---------- that bar as it sits inside the store table ---------- */
+td .wtrack{min-width:170px}
+.arch{vertical-align:2px}
+
+/* the three combo panels have subtitles of different lengths - pin them so row 1 of each
+   card starts on the same line */
+.g3>.card>.cs{min-height:56px}   /* 3 lines - the longest of the three subtitles */
+
+/* ---------- measure toggle chips (the brown-palette rewrite dropped the old .chip rules) ---------- */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.chip{appearance:none;border:1px solid var(--line);background:var(--paper);border-radius:999px;
+  padding:6px 14px;font:700 11.5px/1 var(--sans);color:var(--muted);cursor:pointer;letter-spacing:.03em;
+  transition:background .12s,color .12s,border-color .12s}
+.chip:hover{border-color:var(--clay);color:var(--cocoa)}
+.chip.on{background:var(--cocoa);border-color:var(--cocoa);color:#FBF8F3}
+
+/* rev: rank columns in the store table */
+td.rk2{font-weight:800;font-size:14px;color:var(--cocoa-deep);font-variant-numeric:tabular-nums}
+td.rk2 .mini{font-weight:600}
+/* the region bar is narrow now, so only label a band that can hold its own text */
+.rbar span{min-width:0}
+
+/* rev: top-5 rank bubbles in the store table */
+.rkb{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;
+  border-radius:50%;color:#FBF8F3;font:800 13px/1 var(--sans);font-variant-numeric:tabular-nums;
+  box-shadow:0 1px 2px rgba(74,54,42,.18)}
+.rkn{color:var(--faint);font-weight:700;font-variant-numeric:tabular-nums}
+</style>
+</head><body>
+<header class="top"><div class="wrap">
+  <div class="kicker" id="hdKicker"></div>
+  <div class="brandrow">
+    <h1 id="hdTitle"></h1>
+    <div class="sub" id="hdSub"></div>
+  </div>
+</div></header>
+<nav class="tabs"><div class="inner" id="tabs"></div></nav>
+<div class="wrap"><div id="panes"></div></div>
+<script>window.__DATA__={"meta":{"kicker":"«BRAND» Hong Kong & Macau  ·  «SEASON» RTW  ·  Collection review","collection":"«COLLECTION»","tagline":"«drop month» · «what the capsule is, in five words»","subLines":["<b>«n» styles · «n» colourways</b>","«units» units · HK$«value» · <b>«n»% sell-through</b>","data to «week» (week ending «date»)"],"collectionTag":"«TAG»","title":"«BRAND» HK - «COLLECTION» collection review","asOf":"«W00 (week ending 00 Mmm 0000)»","weeks":["W01","W02","W03","W04","W05","W06","W07","W08","W09","W10"],"dropWeek":"W04","storeWeeks":["W04","W05","W06","W07","W08","W09","W10"],"nStyles":"«n»","nSkus":"«n»","order":0,"rcvd":0,"sold":0,"amt":0,"st":0,"rcQty":0,"rcAmt":0,"gap":0,"gapPct":0,"compWk":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"teeWk":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"regions":["Local","Mainland","Other"],"ages":["<18","18-29","30-40",">40"],"sizes":["XS","S","M","L"],"sleeveOrder":["Sleeveless","Short sleeve","Long sleeve"],"lengths":["Crop","Semi Crop","Regular"],"barHex":{},"subCatNames":null,"colNames":{"COL-A":"«Colour A»","COL-B":"«Colour B»","COL-C":"«Colour C»","COL-D":"«Colour D»"},"colHex":{"COL-A":"#2E2823","COL-B":"#E0DFD7","COL-C":"#8A9880","COL-D":"#A98B72"},"storeArch":{"S01":{"label":"Local-Mid","reg":"Local","band":"Mid","pct":0},"S02":{"label":"Local-Old","reg":"Local","band":"Old","pct":0},"S03":{"label":"Local-Young","reg":"Local","band":"Young","pct":0},"S04":{"label":"Tourist-Mid","reg":"Tourist","band":"Mid","pct":0},"S05":{"label":"Tourist-Young","reg":"Tourist","band":"Young","pct":0},"S06":{"label":"Tourist-Old","reg":"Tourist","band":"Old","pct":0},"S07":{"label":"Local-Mid","reg":"Local","band":"Mid","pct":0},"S08":{"label":"Tourist-Mid","reg":"Tourist","band":"Mid","pct":0}},"storeMix":{"S01":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S02":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S03":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S04":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S05":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S06":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S07":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"S08":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0}},"chainMix":{"rtw":0,"women":0,"well":0,"rtwAmt":0,"womenAmt":0,"wellAmt":0,"womenPct":0,"wellOfWomen":0,"wellOfRtw":0,"womenPctAmt":0,"wellOfWomenAmt":0},"corr":{"n":8,"mixVsPen_r":0,"mixVsPen_rho":0,"unitsVsUnits_r":0,"best":["S01","S02","S03"],"worst":["S06","S07","S08"],"topWomenMix":[],"bigWomen":[]},"display":[]},"styles":[{"code":"STYLE-01","desc":"«full product description as it reads in the master file»","name":"«Style 01 short name»","price":0,"sleeve":"Sleeveless","fit":"Slim","length":"Crop","detail":"«the one feature that sells it»","imc":"","launch":"","plannedWk":0,"grouping":"«lifestyle grouping»","collection":"«COLLECTION NAME»","fibre":"«fibre composition»","fabric":"«fabric, in English»","globalCols":["COL-A","COL-B","COL-C","COL-D"],"colors":[{"code":"COL-A","name":"«Colour A»","hex":"#2E2823","sku":"STYLE-01-COL-A","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-B","name":"«Colour B»","hex":"#E0DFD7","sku":"STYLE-01-COL-B","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-C","name":"«Colour C»","hex":"#8A9880","sku":"STYLE-01-COL-C","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-D","name":"«Colour D»","hex":"#A98B72","sku":"STYLE-01-COL-D","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0}],"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"order":0,"rcvd":0,"sold":0,"st":0,"amt":0,"soh":0,"firstWk":"W04","wom":0,"rate":0,"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E"},{"code":"STYLE-02","desc":"«full product description as it reads in the master file»","name":"«Style 02 short name»","price":0,"sleeve":"Short sleeve","fit":"Slim","length":"Crop","detail":"«the one feature that sells it»","imc":"","launch":"","plannedWk":0,"grouping":"«lifestyle grouping»","collection":"«COLLECTION NAME»","fibre":"«fibre composition»","fabric":"«fabric, in English»","globalCols":["COL-A","COL-B","COL-C","COL-D"],"colors":[{"code":"COL-A","name":"«Colour A»","hex":"#2E2823","sku":"STYLE-02-COL-A","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-B","name":"«Colour B»","hex":"#E0DFD7","sku":"STYLE-02-COL-B","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-C","name":"«Colour C»","hex":"#8A9880","sku":"STYLE-02-COL-C","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-D","name":"«Colour D»","hex":"#A98B72","sku":"STYLE-02-COL-D","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0}],"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"order":0,"rcvd":0,"sold":0,"st":0,"amt":0,"soh":0,"firstWk":"W04","wom":0,"rate":0,"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E"},{"code":"STYLE-03","desc":"«full product description as it reads in the master file»","name":"«Style 03 short name»","price":0,"sleeve":"Short sleeve","fit":"Slim","length":"Semi Crop","detail":"«the one feature that sells it»","imc":"","launch":"","plannedWk":0,"grouping":"«lifestyle grouping»","collection":"«COLLECTION NAME»","fibre":"«fibre composition»","fabric":"«fabric, in English»","globalCols":["COL-A","COL-B","COL-C","COL-D"],"colors":[{"code":"COL-A","name":"«Colour A»","hex":"#2E2823","sku":"STYLE-03-COL-A","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-B","name":"«Colour B»","hex":"#E0DFD7","sku":"STYLE-03-COL-B","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-C","name":"«Colour C»","hex":"#8A9880","sku":"STYLE-03-COL-C","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-D","name":"«Colour D»","hex":"#A98B72","sku":"STYLE-03-COL-D","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0}],"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"order":0,"rcvd":0,"sold":0,"st":0,"amt":0,"soh":0,"firstWk":"W04","wom":0,"rate":0,"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E"},{"code":"STYLE-04","desc":"«full product description as it reads in the master file»","name":"«Style 04 short name»","price":0,"sleeve":"Short sleeve","fit":"Comfortable","length":"Regular","detail":"«the one feature that sells it»","imc":"","launch":"","plannedWk":0,"grouping":"«lifestyle grouping»","collection":"«COLLECTION NAME»","fibre":"«fibre composition»","fabric":"«fabric, in English»","globalCols":["COL-A","COL-B","COL-C","COL-D"],"colors":[{"code":"COL-A","name":"«Colour A»","hex":"#2E2823","sku":"STYLE-04-COL-A","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-B","name":"«Colour B»","hex":"#E0DFD7","sku":"STYLE-04-COL-B","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-C","name":"«Colour C»","hex":"#8A9880","sku":"STYLE-04-COL-C","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-D","name":"«Colour D»","hex":"#A98B72","sku":"STYLE-04-COL-D","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0}],"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"order":0,"rcvd":0,"sold":0,"st":0,"amt":0,"soh":0,"firstWk":"W04","wom":0,"rate":0,"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E"},{"code":"STYLE-05","desc":"«full product description as it reads in the master file»","name":"«Style 05 short name»","price":0,"sleeve":"Long sleeve","fit":"Slim","length":"Semi Crop","detail":"«the one feature that sells it»","imc":"","launch":"","plannedWk":0,"grouping":"«lifestyle grouping»","collection":"«COLLECTION NAME»","fibre":"«fibre composition»","fabric":"«fabric, in English»","globalCols":["COL-A","COL-B","COL-C","COL-D"],"colors":[{"code":"COL-A","name":"«Colour A»","hex":"#2E2823","sku":"STYLE-05-COL-A","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-B","name":"«Colour B»","hex":"#E0DFD7","sku":"STYLE-05-COL-B","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-C","name":"«Colour C»","hex":"#8A9880","sku":"STYLE-05-COL-C","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-D","name":"«Colour D»","hex":"#A98B72","sku":"STYLE-05-COL-D","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0}],"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"order":0,"rcvd":0,"sold":0,"st":0,"amt":0,"soh":0,"firstWk":"W04","wom":0,"rate":0,"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E"},{"code":"STYLE-06","desc":"«full product description as it reads in the master file»","name":"«Style 06 short name»","price":0,"sleeve":"Long sleeve","fit":"Comfortable","length":"Regular","detail":"«the one feature that sells it»","imc":"","launch":"","plannedWk":0,"grouping":"«lifestyle grouping»","collection":"«COLLECTION NAME»","fibre":"«fibre composition»","fabric":"«fabric, in English»","globalCols":["COL-A","COL-B","COL-C","COL-D"],"colors":[{"code":"COL-A","name":"«Colour A»","hex":"#2E2823","sku":"STYLE-06-COL-A","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-B","name":"«Colour B»","hex":"#E0DFD7","sku":"STYLE-06-COL-B","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-C","name":"«Colour C»","hex":"#8A9880","sku":"STYLE-06-COL-C","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0},{"code":"COL-D","name":"«Colour D»","hex":"#A98B72","sku":"STYLE-06-COL-D","order":0,"rcvd":0,"sold":0,"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","imgB":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E","st":0}],"weeks":{"W01":0,"W02":0,"W03":0,"W04":0,"W05":0,"W06":0,"W07":0,"W08":0,"W09":0,"W10":0},"order":0,"rcvd":0,"sold":0,"st":0,"amt":0,"soh":0,"firstWk":"W04","wom":0,"rate":0,"img":"data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22120%22%20height%3D%22150%22%3E%3Crect%20width%3D%22120%22%20height%3D%22150%22%20fill%3D%22%23EFE7DA%22%2F%3E%3Crect%20x%3D%220.5%22%20y%3D%220.5%22%20width%3D%22119%22%20height%3D%22149%22%20fill%3D%22none%22%20stroke%3D%22%23D9CBB6%22%2F%3E%3Ctext%20x%3D%2260%22%20y%3D%2278%22%20text-anchor%3D%22middle%22%20font-family%3D%22Georgia%2Cserif%22%20font-size%3D%2213%22%20fill%3D%22%23A1907B%22%3Ephoto%3C%2Ftext%3E%3C%2Fsvg%3E"}],"receipts":[["W04","S01","Local","<18","Male","XS","STYLE-01","COL-A",0,0],["W05","S01","Mainland","18-29","Female","S","STYLE-02","COL-B",0,0],["W06","S01","Other","30-40","Female","M","STYLE-03","COL-C",0,0],["W07","S01","Local",">40","Female","L","STYLE-04","COL-D",0,0],["W08","S01","Mainland","<18","Female","XS","STYLE-05","COL-A",0,0],["W09","S01","Other","18-29","Female","S","STYLE-06","COL-B",0,0],["W10","S02","Local","30-40","Female","M","STYLE-01","COL-C",0,0],["W04","S02","Mainland",">40","Male","L","STYLE-02","COL-D",0,0],["W05","S02","Other","<18","Female","XS","STYLE-03","COL-A",0,0],["W06","S02","Local","18-29","Female","S","STYLE-04","COL-B",0,0],["W07","S02","Mainland","30-40","Female","M","STYLE-05","COL-C",0,0],["W08","S02","Other",">40","Female","L","STYLE-06","COL-D",0,0],["W09","S03","Local","<18","Female","XS","STYLE-01","COL-A",0,0],["W10","S03","Mainland","18-29","Female","S","STYLE-02","COL-B",0,0],["W04","S03","Other","30-40","Male","M","STYLE-03","COL-C",0,0],["W05","S03","Local",">40","Female","L","STYLE-04","COL-D",0,0],["W06","S03","Mainland","<18","Female","XS","STYLE-05","COL-A",0,0],["W07","S03","Other","18-29","Female","S","STYLE-06","COL-B",0,0],["W08","S04","Local","30-40","Female","M","STYLE-01","COL-C",0,0],["W09","S04","Mainland",">40","Female","L","STYLE-02","COL-D",0,0],["W10","S04","Other","<18","Female","XS","STYLE-03","COL-A",0,0],["W04","S04","Local","18-29","Male","S","STYLE-04","COL-B",0,0],["W05","S04","Mainland","30-40","Female","M","STYLE-05","COL-C",0,0],["W06","S04","Other",">40","Female","L","STYLE-06","COL-D",0,0],["W07","S05","Local","<18","Female","XS","STYLE-01","COL-A",0,0],["W08","S05","Mainland","18-29","Female","S","STYLE-02","COL-B",0,0],["W09","S05","Other","30-40","Female","M","STYLE-03","COL-C",0,0],["W10","S05","Local",">40","Female","L","STYLE-04","COL-D",0,0],["W04","S05","Mainland","<18","Male","XS","STYLE-05","COL-A",0,0],["W05","S05","Other","18-29","Female","S","STYLE-06","COL-B",0,0],["W06","S06","Local","30-40","Female","M","STYLE-01","COL-C",0,0],["W07","S06","Mainland",">40","Female","L","STYLE-02","COL-D",0,0],["W08","S06","Other","<18","Female","XS","STYLE-03","COL-A",0,0],["W09","S06","Local","18-29","Female","S","STYLE-04","COL-B",0,0],["W10","S06","Mainland","30-40","Female","M","STYLE-05","COL-C",0,0],["W04","S06","Other",">40","Male","L","STYLE-06","COL-D",0,0],["W05","S07","Local","<18","Female","XS","STYLE-01","COL-A",0,0],["W06","S07","Mainland","18-29","Female","S","STYLE-02","COL-B",0,0],["W07","S07","Other","30-40","Female","M","STYLE-03","COL-C",0,0],["W08","S07","Local",">40","Female","L","STYLE-04","COL-D",0,0],["W09","S07","Mainland","<18","Female","XS","STYLE-05","COL-A",0,0],["W10","S07","Other","18-29","Female","S","STYLE-06","COL-B",0,0],["W04","S08","Local","30-40","Male","M","STYLE-01","COL-C",0,0],["W05","S08","Mainland",">40","Female","L","STYLE-02","COL-D",0,0],["W06","S08","Other","<18","Female","XS","STYLE-03","COL-A",0,0],["W07","S08","Local","18-29","Female","S","STYLE-04","COL-B",0,0],["W08","S08","Mainland","30-40","Female","M","STYLE-05","COL-C",0,0],["W09","S08","Other",">40","Female","L","STYLE-06","COL-D",0,0]],"basket":{"n":0,"upt":0,"atv":0,"collectionUpt":0,"attach":0,"multi":{},"repeatCust":0,"custTotal":0},"voc":{"weekLabel":"«Week 00»","stores":["S01","S02","S03","S04","S05","S06","S07","S08"],"styles":[{"style":"STYLE-01","desc":"«full product description as it reads in the master file»","overall":0,"scores":{"color":0,"fit":0,"material":0,"design":0},"callout":"«one line: what the doors say about this style»","why":{"fit":"«what the doors say about fit and length»","material":"«what the doors say about the fabric»","design":"«what the doors say about the design»","color":"«what the doors say about the colour range»"},"tags":["«tag»","«tag»","«tag»"],"topics":[{"topic":"FIT/LENGTH","notes":[]},{"topic":"MATERIAL","notes":[]},{"topic":"DESIGN","notes":[]},{"topic":"COLOR","notes":[]}]},{"style":"STYLE-02","desc":"«full product description as it reads in the master file»","overall":0,"scores":{"color":0,"fit":0,"material":0,"design":0},"callout":"«one line: what the doors say about this style»","why":{"fit":"«what the doors say about fit and length»","material":"«what the doors say about the fabric»","design":"«what the doors say about the design»","color":"«what the doors say about the colour range»"},"tags":["«tag»","«tag»","«tag»"],"topics":[{"topic":"FIT/LENGTH","notes":[]},{"topic":"MATERIAL","notes":[]},{"topic":"DESIGN","notes":[]},{"topic":"COLOR","notes":[]}]},{"style":"STYLE-03","desc":"«full product description as it reads in the master file»","overall":0,"scores":{"color":0,"fit":0,"material":0,"design":0},"callout":"«one line: what the doors say about this style»","why":{"fit":"«what the doors say about fit and length»","material":"«what the doors say about the fabric»","design":"«what the doors say about the design»","color":"«what the doors say about the colour range»"},"tags":["«tag»","«tag»","«tag»"],"topics":[{"topic":"FIT/LENGTH","notes":[]},{"topic":"MATERIAL","notes":[]},{"topic":"DESIGN","notes":[]},{"topic":"COLOR","notes":[]}]}],"series":{"q":"«the series question as the form asks it»","notes":[]},"adjacent":{"q":"«the adjacent-block question»","notes":[]},"scoreNote":"«Say here that the shop score is an editorial 0-10 read of the comments - the shop form carries no rating scale.»","wins":[{"icon":"✓","label":"«What the doors love, 1»","doors":[],"note":"«the evidence»"},{"icon":"✓","label":"«What the doors love, 2»","doors":[],"note":"«the evidence»"},{"icon":"✓","label":"«What the doors love, 3»","doors":[],"note":"«the evidence»"},{"icon":"✓","label":"«What the doors love, 4»","doors":[],"note":"«the evidence»"}],"issues":[{"icon":"!","label":"«Where it loses sales, 1»","doors":[],"styles":[],"note":"«the evidence»"},{"icon":"!","label":"«Where it loses sales, 2»","doors":[],"styles":[],"note":"«the evidence»"},{"icon":"!","label":"«Where it loses sales, 3»","doors":[],"styles":[],"note":"«the evidence»"},{"icon":"!","label":"«Where it loses sales, 4»","doors":[],"styles":[],"note":"«the evidence»"}],"callout":{"icon":"⚠️","title":"«The one repeated complaint &mdash; and the fixes the doors ask for»","cards":[{"icon":"•","code":"«Angle 1»","name":"«the doors that said it»","quote":"«the quote, then what it means for the buy»"},{"icon":"•","code":"«Angle 2»","name":"«the doors that said it»","quote":"«the quote, then what it means for the buy»"},{"icon":"•","code":"«Angle 3»","name":"«the doors that said it»","quote":"«the quote, then what it means for the buy»"}]}},"combos":{"all":[{"a":"STYLE-01","b":"PARTNER-01","n":0,"amt":0,"aName":"«Style 01 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-02","b":"PARTNER-02","n":0,"amt":0,"aName":"«Style 02 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-03","b":"PARTNER-03","n":0,"amt":0,"aName":"«Style 03 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-04","b":"PARTNER-04","n":0,"amt":0,"aName":"«Style 04 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-05","b":"PARTNER-05","n":0,"amt":0,"aName":"«Style 05 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null}],"inside":[{"a":"STYLE-01","b":"STYLE-02","n":0,"amt":0,"aName":"«Style 01 short name»","bName":"«Style 02 short name»","aIn":true,"bIn":true,"both":true,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-02","b":"STYLE-03","n":0,"amt":0,"aName":"«Style 02 short name»","bName":"«Style 03 short name»","aIn":true,"bIn":true,"both":true,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-03","b":"STYLE-04","n":0,"amt":0,"aName":"«Style 03 short name»","bName":"«Style 04 short name»","aIn":true,"bIn":true,"both":true,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-04","b":"STYLE-05","n":0,"amt":0,"aName":"«Style 04 short name»","bName":"«Style 05 short name»","aIn":true,"bIn":true,"both":true,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-05","b":"STYLE-06","n":0,"amt":0,"aName":"«Style 05 short name»","bName":"«Style 06 short name»","aIn":true,"bIn":true,"both":true,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null}],"cross":[{"a":"STYLE-01","b":"PARTNER-01","n":0,"amt":0,"aName":"«Style 01 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-02","b":"PARTNER-02","n":0,"amt":0,"aName":"«Style 02 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-03","b":"PARTNER-03","n":0,"amt":0,"aName":"«Style 03 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-04","b":"PARTNER-04","n":0,"amt":0,"aName":"«Style 04 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null},{"a":"STYLE-05","b":"PARTNER-05","n":0,"amt":0,"aName":"«Style 05 short name»","bName":"«partner style name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"TS","aSeason":"","bSeason":"","prof":null}],"acc":[{"a":"STYLE-01","b":"ACC-01","n":0,"amt":0,"aName":"«Style 01 short name»","bName":"«accessory name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"CP","aSeason":"","bSeason":"ACC","prof":null},{"a":"STYLE-02","b":"ACC-02","n":0,"amt":0,"aName":"«Style 02 short name»","bName":"«accessory name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"CP","aSeason":"","bSeason":"ACC","prof":null},{"a":"STYLE-03","b":"ACC-03","n":0,"amt":0,"aName":"«Style 03 short name»","bName":"«accessory name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"CP","aSeason":"","bSeason":"ACC","prof":null},{"a":"STYLE-04","b":"ACC-04","n":0,"amt":0,"aName":"«Style 04 short name»","bName":"«accessory name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"CP","aSeason":"","bSeason":"ACC","prof":null},{"a":"STYLE-05","b":"ACC-05","n":0,"amt":0,"aName":"«Style 05 short name»","bName":"«accessory name»","aIn":true,"bIn":false,"both":false,"aSub":"TS","bSub":"CP","aSeason":"","bSeason":"ACC","prof":null}],"soloReceipts":0,"multiReceipts":0,"accReceipts":0,"attachSub":[["TS",0],["WP",0],["SK",0],["WJ",0],["SP",0]],"byStyle":{},"img":{},"lift":{},"scope":"«how a combo is defined: two styles on the same receipt, over which weeks and which brands»"},"copy":{"tabs":[["01","Product &amp; sales"],["02","Store performance"],["03","Customer &amp; combo"],["04","Shop VOC"]],"tilesProduct":[{"k":"Styles / SKUs","f":"«what the capsule is»"},{"k":"Units sold","f":""},{"k":"Sales value","f":"at tag price"},{"k":"Sell-through","f":""},{"k":"Stock on floor","f":"«has the whole buy landed?»"},{"k":"Share of «parent category»","f":"«of which universe»"}],"eyebrowTrend":"","trendTitle":"«Weekly sold trend»","displayCaption":"&middot; «the collection on the floor»","eyebrowStyle":"By style · sold quantity and sell-through","eyebrowColour":"By colour, by length, by sleeve","readProduct":{"hl":"«One sentence. The single biggest finding of the whole review, with the two figures that prove it in bold.»","cols":[{"h":"Working","items":["«the best style, and why»","«the volume piece»","«the attribute that wins»"]},{"h":"Needs attention","items":["«what is stuck, and what it is worth»","«the weakest attribute»","«the stock position»"]},{"h":"Buy signal","items":["«what to buy deeper»","«what to cut»","«what the top SKUs have in common»"]}],"act":"<b>&lt;&lt;NEXT SEASON&gt;&gt;:</b> «three or four decisions, separated by middots»","prov":"«Which file, which columns, which weeks. Name every reconciliation gap here - the item file against the weekly columns, and against the receipt file.»"},"tilesStore":[{"k":"Top door","f":""},{"k":"Top 5 doors","f":"of collection units"},{"k":"Strongest converter","f":""},{"k":"Demand sits","f":""}],"storeTableTitle":"Store performance","storeCols":{"units":"«Collection» units","sales":"«Collection»<br>sales","base":"«Base category» sales","baseNote":"«collection» slice filled in","basePct":"«Base» %<br>of RTW sales","pen":"«Collection» %<br>of «base» sales","baseRank":"«Base»<br>rank","penRank":"«Collection»<br>rank"},"storeCardTitle":"«Which doors work the collection hardest?»","storeNotes":[{"h":"«Key takeaway»","p":"«Does door size buy penetration? Name the biggest door, its rate, and the chain rate. Look every figure up - a hard-coded claim rots the week after.»"},{"h":"«Where real demand sits»","p":"«The three strongest converters and what they have in common.»"},{"h":"«Where recoverable volume sits»","p":"«The three weakest, what they hold, and what lifting them to the chain rate would be worth.»"}],"storeFoot":"«The statistical check: correlation across the doors, and the grouped comparison. Say plainly whether there is a link.»","sleeveMixTitle":"Sleeve mix by door","lengthMixTitle":"Length mix by door","readStore":{"hl":"«One sentence on distribution versus conversion, with the top and bottom rate in bold.»","cols":[{"h":"Working","items":["«the leading doors»","«the productive market»","«the best converter»"]},{"h":"Needs attention","items":["«the trailing door»","«the attribute that has not started»","«the big door on a low rate»"]},{"h":"Door read","items":["«the archetype split»","«what the local customer buys»","«size vs penetration»"]}],"act":"<b>&lt;&lt;NEXT SEASON&gt;&gt;:</b> «how to allocate by door»","prov":"«Receipt Line weeks, units, and the gap against the item file - name what the receipt extract does not carry (outlet, airside, e-comm).»"},"tilesCustomer":[{"k":"Female","f":""},{"k":"","f":""},{"k":"","f":""},{"k":"Core age band","f":"«largest single band»"},{"k":"","f":"«what the size curve says»"},{"k":"Units per receipt","f":""}],"eyebrowWho":"Who is buying","regionFoot":"Weekly sales value by region,","sizeNotes":[{"h":"«Is the curve small or large?»","p":"«XS+S as a share of units, against what a standard curve for this category would be.»"},{"h":"«What moves the curve»","p":"«Compare the curve by length and by region - usually one moves it and the other does not.»"},{"h":"«What to do with it»","p":"«The buying instruction that follows.»"}],"eyebrowTop5":"Top 5 SKUs by segment","segCardTitle":"«What each segment actually buys»","segFoot":"«Warn the reader that the raw ranking says little if every segment leads with the same styles. The gold flag marks the SKU that over-indexes hardest against the all-buyer mix, which is where the groups actually differ.»","eyebrowCombo":"Buying combo · what else is in the same receipt","comboTitle":"Top 5 buying combos","comboSub":"«What the pairings have in common.»","insideTitle":"Inside the collection","insideSub":"«Both halves are collection styles - is she building the collection or replacing a basic?»","accTitle":"Collection + accessories","accSub":"«Which accessory attaches, and at what rate against the best apparel partner.»","attachTitle":"What gets attached, by sub-category","attachRow":"Attachment mix","attachFoot":"«What the mix says about how she shops.»","readCustomer":{"hl":"«One sentence: who she is, in bold percentages, and how she shops.»","cols":[{"h":"Working","items":["«the core age band»","«the basket»","«the top combo»","«the accessory attach»"]},{"h":"Needs attention","items":["«the size curve against the buy»","«the band this range misses»","«the segment carrying an attribute alone»"]},{"h":"How she shops","items":["«tops with tops, or tops with bottoms»","«cross-sell inside the collection»","«repeat buyers»"]}],"act":"<b>&lt;&lt;NEXT SEASON&gt;&gt;:</b> «curve, merchandising and range decisions»","prov":"«Receipt Line weeks and brand scope. State that no member identifiers ship in the file.»"},"tilesVoc":[{"k":"VOC week","f":"«the feedback file»"},{"k":"Styles covered","f":"«which block of the form»"},{"k":"Doors reporting","f":"«the door range»"},{"k":"Comments read","f":"fit · material · design · colour"},{"k":"Covered styles’ ST","f":""},{"k":"Their share of sales","f":"«the styles asked about»"}],"eyebrowVoc":"Power ranking · shop score against sell-through","vocRankTitle":"«How the doors rate the styles they were asked about»","vocRankSub":"Sell-through sits beside the score so you can see where the two disagree — that gap is where the action is.","vocHint":"Click any card for the fit, material, design and colour read behind the score — synthesised from feedback across","eyebrowWins":"Wins and issues","vocWinsTitle":"What the doors love","vocIssuesTitle":"Where it is losing sales","readVoc":{"hl":"«One sentence linking what the doors say to what the numbers do. If they praise the product but it does not sell, say which of the two is wrong.»","cols":[{"h":"Working","items":["«the most praised feature»","«where the fabric lands»","«what the doors ask for more of»"]},{"h":"Fix before «next season»","items":["«spec fix 1, with the door count»","«spec fix 2»","«the size or calendar problem»"]},{"h":"Score vs sell-through","items":["«a style scoring high and selling badly»","«a style scoring low and selling well»","«what that disagreement means»"]}],"act":"<b>&lt;&lt;NEXT SEASON&gt;&gt;:</b> «the spec and calendar decisions»","prov":"«Which feedback file, which week, how many doors. Say that the shop score is editorial and that the form carries no rating scale.»"}}};</script>
+<script>/* MLB HK - RTW COLLECTION CASE STUDY - template.
+   Everything on this page renders from window.__DATA__ (the block above):
+     D.meta     headline figures, week list, colour/store dictionaries, masthead text
+     D.styles   one record per style, each with its colourways and weekly units
+     D.receipts receipt lines - [week, store, region, age, gender, size, style, colour, qty, amt]
+     D.basket   receipt-level UPT / ATV / attachment
+     D.voc      shop feedback: scores, wins, issues, callout
+     D.combos   same-receipt pairings
+     D.copy     EVERY sentence on the page. Write the story there, not in this script. */
+(function () {
+'use strict';
+var D = window.__DATA__, M = D.meta, S = D.styles, R = D.receipts, B = D.basket, V = D.voc, K = D.combos || {};
+var C = D.copy || {};   /* the copy deck - all prose lives in __DATA__.copy */
+var WK = M.weeks, SLV = M.sleeveOrder;
+/* the window for the trend, the customer weekly chart and the store tab: from the main
+   launch week to the latest week, NOT a rolling last-N (that dropped W30 once W34 landed) */
+var DROPW = M.dropWeek || 'W30';
+var WKD = WK.slice(Math.max(0, WK.indexOf(DROPW)));
+var WKDLAB = WKD[0] + '\u2013' + WKD[WKD.length - 1];
+/* the full window, printed wherever a period is quoted - never hard-code it */
+var WKLAB = WK[0] + '\u2013' + WK[WK.length - 1];   // the full window, for provenance lines
+var RW = 0, RS = 1, RR = 2, RA = 3, RG = 4, RZ = 5, RST = 6, RC = 7, RQ = 8, RM = 9;
+
+/* The attribute vocabularies. Override any of them in __DATA__.meta to suit the
+   collection - a bottoms capsule would set meta.lengths = ['Short','Mid','Full']. */
+var SLVC = M.sleeveColors || { 'Sleeveless': '#C98A3E', 'Short sleeve': '#6B4F3F', 'Long sleeve': '#8A9880' };
+var LENC = M.lengthColors || { 'Crop': '#6B4F3F', 'Semi Crop': '#A98B72', 'Regular': '#8A9880' };
+var REGC = M.regionColors || { 'Local': '#6B4F3F', 'Mainland': '#B07A4A', 'Other': '#CDBFAC' };
+var AGEC = M.ageColors || { '<18': '#E0D2BE', '18-29': '#C6A883', '30-40': '#9A7550', '>40': '#5E4433' };
+var SZC = M.sizeColors || { XS: '#B04A32', S: '#C98A3E', M: '#8A9880', L: '#6B4F3F' };
+var AGES = M.ages || ['<18', '18-29', '30-40', '>40'];
+var REGS = M.regions || ['Local', 'Mainland', 'Other'];
+var LENS = M.lengths || ['Crop', 'Semi Crop', 'Regular'];
+var SIZES = M.sizes || ['XS', 'S', 'M', 'L'];
+
+/* ------------------------------------------------------------------ helpers */
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+function n0(v) { return Math.round(v || 0).toLocaleString('en-US'); }
+/* every ST% and share% on this dashboard is whole-number by request */
+function pc(v, d) { return (v || 0).toFixed(d == null ? 0 : d) + '%'; }
+function money(v) {
+  v = v || 0;
+  if (v >= 1e6) return 'HK$' + (v / 1e6).toFixed(2) + 'M';
+  if (v >= 1e3) return 'HK$' + Math.round(v / 1e3) + 'K';
+  return 'HK$' + n0(v);
+}
+function stCol(v) { return v < 20 ? 'var(--bad)' : v < 35 ? 'var(--warn)' : v < 55 ? 'var(--ok)' : 'var(--good)'; }
+function scCol(v) { return v >= 8 ? 'var(--good)' : v >= 6.5 ? 'var(--warn)' : 'var(--bad)'; }
+function share(a, b) { return b ? a / b * 100 : 0; }
+function sum(a) { var t = 0; for (var i = 0; i < a.length; i++) t += a[i]; return t; }
+function titleCase(s) {
+  /* a word boundary fires after an apostrophe too, which turns WOMEN'S into Women'S */
+  return String(s || '').toLowerCase().replace(/(^|[^a-z'])([a-z])/g,
+    function (m, p1, p2) { return p1 + p2.toUpperCase(); });
+}
+var SMAP = {}; S.forEach(function (s) { SMAP[s.code] = s; });
+var CMAP = {}; S.forEach(function (s) { s.colors.forEach(function (c) { CMAP[s.code + '-' + c.code] = c; }); });
+var TOT_AMT = M.amt;
+
+function bar(val, max, col, label) {
+  var w = max ? Math.max(0, Math.min(100, val / max * 100)) : 0;
+  var lab = label == null ? n0(val) : label;
+  var inside = w >= 32;
+  return '<div class="bw"><i style="width:' + w.toFixed(1) + '%;background:' + col + '"></i>' +
+    '<b class="' + (inside ? 'in' : 'out') + '" style="' +
+    (inside ? 'left:0;width:' + w.toFixed(1) + '%;justify-content:flex-end;padding-right:7px' : 'left:' + w.toFixed(1) + '%') +
+    '">' + lab + '</b></div>';
+}
+function tiles(list) {
+  return '<div class="tiles">' + list.map(function (t) {
+    return '<div class="tile"><div class="l">' + t[0] + '</div><div class="v">' + t[1] + '</div><div class="f">' + esc(t[2]) + '</div></div>';
+  }).join('') + '</div>';
+}
+function eyebrow(t) { return '<div class="eyebrow">' + esc(t) + '</div>'; }
+function legend(keys, colors, labels) {
+  return '<div class="lg">' + keys.map(function (k) {
+    return '<span><i style="background:' + colors[k] + '"></i>' + esc(labels ? labels[k] : k) + '</span>';
+  }).join('') + '</div>';
+}
+function read(hl, cols, act, pv) {
+  return '<div class="read"><h3>Key reading</h3><div class="hl">' + hl + '</div><div class="cols">' +
+    cols.map(function (c) {
+      return '<div><h4>' + esc(c[0]) + '</h4><ul>' + c[1].map(function (b) { return '<li>' + b + '</li>'; }).join('') + '</ul></div>';
+    }).join('') + '</div><div class="act">' + act + '</div><div class="pv">' + esc(pv) + '</div></div>';
+}
+
+/* Key-reading box and note panels, both filled from the copy deck. */
+function readC(c) {
+  c = c || {};
+  return read(c.hl || '', (c.cols || []).map(function (x) { return [x.h || '', x.items || []]; }),
+              c.act || '', c.prov || '');
+}
+function notes(list) {
+  return '<div class="notes2">' + (list || []).map(function (x) {
+    return '<div><h5>' + esc(x.h || '') + '</h5><p>' + (x.p || '') + '</p></div>';
+  }).join('') + '</div>';
+}
+
+/* ------------------------------------------------------------------ charts */
+function niceMax(m) {
+  if (m <= 0) return 10;
+  var p = Math.pow(10, Math.floor(Math.log10(m))), r = m / p, i;
+  var steps = [1, 1.25, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+  for (i = 0; i < steps.length; i++) if (r <= steps[i] + 1e-9) return steps[i] * p;
+  return 10 * p;
+}
+function stackChart(cats, series, opt) {
+  opt = opt || {};
+  /* mr leaves room for a right-hand % axis when opt.line is supplied */
+  var W = opt.w || 980, H = opt.h || 320, ml = opt.money ? 66 : 54, mr = opt.line ? 58 : 16,
+      mt = opt.wtw ? 46 : 28, mb = 50;   // the WTW line needs headroom above the bar total
+  /* in-bar labels have ~60px to play with, so money is shortened to 64K / 1.2M there while the
+     axis and the bar total carry the full HK$ form */
+  var kv = function (v) { return v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : Math.round(v / 1e3) + 'K'; };
+  var lab = opt.money ? kv : n0;
+  var labTot = opt.money ? moneyAx : n0;
+  var n = cats.length, iw = W - ml - mr, ih = H - mt - mb;
+  var tot = cats.map(function (_, i) { return sum(series.map(function (s) { return s.vals[i] || 0; })); });
+  var mx = niceMax(Math.max.apply(null, tot.concat([1])));
+  var step = iw / n, bw = Math.min(88, step * 0.5);
+  var y = function (v) { return mt + ih - v / mx * ih; };
+  var o = ['<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">'];
+  for (var t = 0; t <= 4; t++) {
+    var v = mx * t / 4;
+    o.push('<line class="gl" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>');
+    o.push('<text class="axv" x="' + (ml - 10) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end" font-size="13">' + (opt.money ? moneyAx(v) : n0(v)) + '</text>');
+  }
+  /* optional right axis + line, used for cumulative sell-through over the bars */
+  var lmax = 0, ly = null;
+  if (opt.line) {
+    lmax = niceMax(Math.max.apply(null, opt.line.vals.concat([1])));
+    ly = function (v) { return mt + ih - v / lmax * ih; };
+    for (var t2 = 0; t2 <= 4; t2++) {
+      var lv = lmax * t2 / 4;
+      o.push('<text class="axv" x="' + (W - mr + 10) + '" y="' + (ly(lv) + 4).toFixed(1) + '" text-anchor="start" font-size="13" fill="' +
+        opt.line.color + '">' + Math.round(lv) + '%</text>');
+    }
+  }
+  for (var i = 0; i < n; i++) {
+    var x = ml + step * (i + 0.5) - bw / 2, acc = 0;
+    for (var s = 0; s < series.length; s++) {
+      var v2 = series[s].vals[i] || 0; if (!v2) continue;
+      var y0 = y(acc + v2), hh = y(acc) - y(acc + v2);
+      o.push('<rect x="' + x.toFixed(1) + '" y="' + y0.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + hh.toFixed(1) + '" fill="' + series[s].color + '" rx="2"><title>' + esc(cats[i] + '  ' + series[s].name + ': ' + (opt.money ? money(v2) : n0(v2))) + '</title></rect>');
+      if (hh > 19) o.push('<text class="vl" x="' + (x + bw / 2).toFixed(1) + '" y="' + (y0 + hh / 2 + 5).toFixed(1) + '" text-anchor="middle" fill="#FBF8F3" font-size="14">' + lab(v2) + '</text>');
+      acc += v2;
+    }
+    if (tot[i]) o.push('<text class="vl" x="' + (x + bw / 2).toFixed(1) + '" y="' + (y(tot[i]) - 10).toFixed(1) + '" text-anchor="middle" fill="var(--cocoa-deep)" font-size="16">' + labTot(tot[i]) + '</text>');
+    if (opt.wtw && opt.wtw[i] != null) {
+      var dv = opt.wtw[i];
+      var dc = dv > 0.5 ? 'var(--good)' : dv < -0.5 ? 'var(--bad)' : 'var(--faint)';
+      o.push('<text class="vl" x="' + (x + bw / 2).toFixed(1) + '" y="' + (y(tot[i]) - 29).toFixed(1) +
+        '" text-anchor="middle" font-size="12.5" fill="' + dc + '">' +
+        (dv > 0 ? '\u25b2 +' : dv < 0 ? '\u25bc ' : '') + dv.toFixed(0) + '%</text>');
+    }
+    o.push('<text class="ax" x="' + (ml + step * (i + 0.5)).toFixed(1) + '" y="' + (mt + ih + 21) + '" text-anchor="middle" font-weight="700" font-size="13.5">' + esc(cats[i]) + '</text>');
+    if (opt.sub) o.push('<text class="ax" x="' + (ml + step * (i + 0.5)).toFixed(1) +
+      '" y="' + (mt + ih + 37) + '" text-anchor="middle" fill="' +
+      (opt.subColor || 'var(--faint)') + '" font-size="' + (opt.subColor ? 12.5 : 11.5) +
+      '" font-weight="' + (opt.subColor ? 700 : 400) + '">' + esc(opt.sub[i] || '') + '</text>');
+  }
+  /* row header for the sub axis - what tells the reader the second row is ST% without
+     a how-to-read caption under the chart */
+  if (opt.sub && opt.subRow) {
+    o.push('<text class="ax" x="' + (ml - 10) + '" y="' + (mt + ih + 37) +
+      '" text-anchor="end" font-size="10.5" letter-spacing="0.06em" fill="' +
+      (opt.subColor || 'var(--faint)') + '">' + esc(opt.subRow) + '</text>');
+  }
+  if (opt.line) {
+    var L = opt.line;
+    var lx = function (i2) { return ml + step * (i2 + 0.5); };
+    o.push('<path d="' + L.vals.map(function (v, i2) { return (i2 ? 'L' : 'M') + lx(i2).toFixed(1) + ' ' + ly(v).toFixed(1); }).join(' ') +
+      '" fill="none" stroke="' + L.color + '" stroke-width="2.6" stroke-linejoin="round"/>');
+    L.vals.forEach(function (v, i2) {
+      o.push('<circle cx="' + lx(i2).toFixed(1) + '" cy="' + ly(v).toFixed(1) + '" r="4.5" fill="#FFF" stroke="' + L.color + '" stroke-width="2.6"><title>' +
+        esc(cats[i2] + '  ' + L.name + ': ' + v.toFixed(0) + '%') + '</title></circle>');
+      /* cream halo so the % reads over a dark bar as well as over the ground */
+      o.push('<text class="vl" x="' + lx(i2).toFixed(1) + '" y="' + (ly(v) - 13).toFixed(1) +
+        '" text-anchor="middle" font-size="14.5" fill="' + L.color +
+        '" stroke="#FBF8F3" stroke-width="3.4" paint-order="stroke" stroke-linejoin="round">' + v.toFixed(0) + '%</text>');
+    });
+  }
+  o.push('<line class="bl" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + (mt + ih) + '" y2="' + (mt + ih) + '"/></svg>');
+  return '<div class="cw">' + o.join('') + '</div>';
+}
+function lineChart(cats, series, opt) {
+  opt = opt || {};
+  var W = opt.w || 980, H = opt.h || 250, ml = opt.money ? 62 : 46, mr = 14, mt = 16, mb = 38;
+  var n = cats.length, iw = W - ml - mr, ih = H - mt - mb;
+  var all = []; series.forEach(function (s) { all = all.concat(s.vals); });
+  var mx = niceMax(Math.max.apply(null, all.concat([1])));
+  var step = n > 1 ? iw / (n - 1) : 0;
+  var x = function (i) { return ml + step * i; }, y = function (v) { return mt + ih - v / mx * ih; };
+  var o = ['<svg viewBox="0 0 ' + W + ' ' + H + '" role="img">'];
+  for (var t = 0; t <= 4; t++) {
+    var v = mx * t / 4;
+    o.push('<line class="gl" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>');
+    o.push('<text class="axv" x="' + (ml - 9) + '" y="' + (y(v) + 4).toFixed(1) + '" text-anchor="end" font-size="13">' + (opt.pct ? Math.round(v) + '%' : opt.money ? moneyAx(v) : n0(v)) + '</text>');
+  }
+  series.forEach(function (s) {
+    var d = s.vals.map(function (v, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    o.push('<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>');
+    s.vals.forEach(function (v, i) {
+      o.push('<circle cx="' + x(i).toFixed(1) + '" cy="' + y(v).toFixed(1) + '" r="4.2" fill="#FFF" stroke="' + s.color + '" stroke-width="2.4"><title>' + esc(cats[i] + '  ' + s.name + ': ' + (opt.pct ? v.toFixed(0) + '%' : opt.money ? money(v) : n0(v))) + '</title></circle>');
+      if (opt.labels) {
+        o.push('<text class="vl" x="' + x(i).toFixed(1) + '" y="' + (y(v) - 14).toFixed(1) +
+          '" text-anchor="middle" font-size="15" fill="' + s.color +
+          '" stroke="#FBF8F3" stroke-width="3.4" paint-order="stroke" stroke-linejoin="round">' +
+          (opt.pct ? v.toFixed(0) + '%' : opt.money ? moneyAx(v) : n0(v)) + '</text>');
+      }
+    });
+  });
+  for (var i = 0; i < n; i++) o.push('<text class="ax" x="' + x(i).toFixed(1) + '" y="' + (mt + ih + 19) + '" text-anchor="middle" font-weight="700" font-size="13.5">' + esc(cats[i]) + '</text>');
+  o.push('<line class="bl" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + (mt + ih) + '" y2="' + (mt + ih) + '"/></svg>');
+  return '<div class="cw">' + o.join('') + '</div>';
+}
+function compRows(rows, keys, colors, labels) {
+  var o = ['<div style="display:flex;flex-direction:column;gap:9px">'];
+  rows.forEach(function (r) {
+    var raw = sum(keys.map(function (k) { return r.v[k] || 0; }));
+    var t = raw || 1;   /* guard for the width maths only - the label prints the real total */
+    o.push('<div style="display:grid;grid-template-columns:124px 1fr 64px;gap:12px;align-items:center">');
+    o.push('<div style="font-size:12.5px;font-weight:700;color:var(--cocoa-deep)">' + esc(r.name) +
+      (r.sub ? '<div class="mini" style="font-weight:400">' + esc(r.sub) + '</div>' : '') + '</div>');
+    o.push('<div style="display:flex;height:22px;border-radius:6px;overflow:hidden;background:#F0E9DE">');
+    keys.forEach(function (k) {
+      var w = (r.v[k] || 0) / t * 100; if (w <= 0) return;
+      o.push('<div title="' + esc(r.name + ' - ' + (labels ? labels[k] : k) + ': ' + n0(r.v[k]) + ' pcs (' + w.toFixed(1) + '%)') +
+        '" style="width:' + w.toFixed(2) + '%;background:' + colors[k] + ';display:flex;align-items:center;justify-content:center;color:#FBF8F3;font-size:10px;font-weight:700">' +
+        (w >= 10 ? w.toFixed(0) + '%' : '') + '</div>');
+    });
+    o.push('</div><div class="tnum" style="font-size:12px;color:var(--muted);text-align:right">' + n0(raw) + ' pcs</div></div>');
+  });
+  return o.join('') + '</div>';
+}
+
+/* ------------------------------------------------------------------ aggregation */
+function rAgg(keyf, filt) {
+  var g = {};
+  for (var i = 0; i < R.length; i++) {
+    var r = R[i]; if (filt && !filt(r)) continue;
+    var k = keyf(r); if (k == null) continue;
+    if (!g[k]) g[k] = { q: 0, a: 0 };
+    g[k].q += r[RQ]; g[k].a += r[RM];
+  }
+  return g;
+}
+function qOf(g, k) { return (g[k] || { q: 0 }).q; }
+function aOf(g, k) { return (g[k] || { a: 0 }).a; }   // the same buckets, on sales value
+/* compact money for chart axes - HK$48K / HK$1.2M, no decimals below a million */
+function moneyAx(v) {
+  v = v || 0;
+  if (v >= 1e6) return 'HK$' + (v / 1e6).toFixed(1) + 'M';
+  if (v >= 1e3) return 'HK$' + Math.round(v / 1e3) + 'K';
+  return 'HK$' + n0(v);
+}
+
+var COLAGG = (function () {
+  var g = {};
+  S.forEach(function (s) {
+    s.colors.forEach(function (c) {
+      if (!g[c.code]) g[c.code] = { code: c.code, name: c.name, hex: c.hex, order: 0, rcvd: 0, sold: 0, amt: 0, nsku: 0 };
+      var e = g[c.code];
+      e.order += c.order; e.rcvd += c.rcvd; e.sold += c.sold; e.amt += c.sold * s.price; e.nsku++;
+    });
+  });
+  return Object.keys(g).map(function (k) {
+    g[k].st = g[k].rcvd ? g[k].sold / g[k].rcvd * 100 : 0;
+    /* a near-white colourway needs a darker bar than its own hex: list those in meta.barHex */
+    g[k].barHex = (M.barHex || {})[k] || g[k].hex;
+    return g[k];
+  }).sort(function (a, b) { return b.sold - a.sold; });
+})();
+function colByCode(c) { return COLAGG.filter(function (x) { return x.code === c; })[0] || { st: 0, amt: 0, sold: 0, rcvd: 0, nsku: 0 }; }
+
+/* like-for-like cohort: only the styles that landed in the main drop week, so a style with a
+   head start does not flatter whatever group it sits in */
+var COH = S.filter(function (x) { return x.firstWk === (M.dropWeek || WK[0]); });
+function cohBy(attr, keys) {
+  return keys.filter(function (k) { return COH.some(function (x) { return x[attr] === k; }); })
+    .map(function (k) {
+      var g2 = COH.filter(function (x) { return x[attr] === k; });
+      return { k: k, n: g2.length, sold: sum(g2.map(function (x) { return x.sold; })),
+               rcvd: sum(g2.map(function (x) { return x.rcvd; })) };
+    });
+}
+var cohLen = cohBy('length', LENS), cohSlv = cohBy('sleeve', SLV), cohFit = cohBy('fit', ['Slim', 'Comfortable']);
+var cohL = {}; cohLen.forEach(function (r) { cohL[r.k] = share(r.sold, r.rcvd); });
+var cohF = {}; cohFit.forEach(function (r) { cohF[r.k] = share(r.sold, r.rcvd); });
+/* the by-length / by-sleeve cards run on ALL nine styles - the launch-date difference is
+   deliberately ignored there, on request. cohL/cohF stay for the read boxes that cite them. */
+function allBy(attr, keys) {
+  return keys.filter(function (k) { return S.some(function (x) { return x[attr] === k; }); })
+    .map(function (k) {
+      var g2 = S.filter(function (x) { return x[attr] === k; });
+      return { k: k, n: g2.length, sold: sum(g2.map(function (x) { return x.sold; })),
+               rcvd: sum(g2.map(function (x) { return x.rcvd; })) };
+    });
+}
+var allLen = allBy('length', LENS), allSlv = allBy('sleeve', SLV);
+var byFitAll = {};
+allBy('fit', ['Slim', 'Comfortable']).forEach(function (r) { byFitAll[r.k] = r; });
+
+var slSold = {}, slRcvd = {}, slAmt = {};
+SLV.forEach(function (k) { slSold[k] = 0; slRcvd[k] = 0; slAmt[k] = 0; });
+S.forEach(function (s) { slSold[s.sleeve] += s.sold; slRcvd[s.sleeve] += s.rcvd; slAmt[s.sleeve] += s.amt; });
+
+var byLen = {};
+S.forEach(function (s) {
+  byLen[s.length] = byLen[s.length] || { sold: 0, rcvd: 0, n: 0 };
+  byLen[s.length].sold += s.sold; byLen[s.length].rcvd += s.rcvd; byLen[s.length].n++;
+});
+
+/* ================================================================== TAB 1 - product & sales */
+function tabProduct() {
+  var srt = S.slice().sort(function (a, b) { return b.sold - a.sold; });
+  var srtST = S.slice().sort(function (a, b) { return b.st - a.st; });
+  /* two champions: most units sold, and best sell-through. Both computed, so the trophy follows
+     the leader rather than being pinned to a style name. */
+  var champU = srt[0].code, champST = srtST[0].code;
+
+  /* dominant Region x Age cell per style - same archetype as the store tab (Local/Tourist crossed
+     with Young under 30 / Mid 30-40 / Old over 40) so the two tabs speak the same language */
+  var BAND = { '<18': 'Young', '18-29': 'Young', '30-40': 'Mid', '>40': 'Old' };
+  var ARCHC3 = { Local: '#6B4F3F', Tourist: '#B07A4A' };
+  var styleProf = (function () {
+    var cell = {}, tot = {};
+    R.forEach(function (r) {
+      var bd = BAND[r[RA]];
+      if (!bd) return;
+      var reg = r[RR] === 'Local' ? 'Local' : 'Tourist';
+      var k = r[RST] + '|' + reg + '-' + bd;
+      cell[k] = (cell[k] || 0) + r[RQ];
+      tot[r[RST]] = (tot[r[RST]] || 0) + r[RQ];
+    });
+    var out = {};
+    Object.keys(cell).forEach(function (k) {
+      var p = k.split('|'), code = p[0];
+      if (!out[code] || cell[k] > out[code].q) out[code] = { label: p[1], q: cell[k] };
+    });
+    Object.keys(out).forEach(function (c) {
+      out[c].pct = tot[c] ? out[c].q / tot[c] * 100 : 0;
+      out[c].reg = out[c].label.split('-')[0];
+    });
+    return out;
+  })();
+  function champ(code) {
+    var why = [];
+    if (code === champU) why.push('volume champion \u2014 most units sold');
+    if (code === champST) why.push('sell-through champion \u2014 best ST%');
+    if (!why.length) return '';
+    return ' <span class="champ" title="' + esc(why.join(' \u00b7 ')) + '">\ud83c\udfc6</span>';
+  }
+  /* two views of the same weeks: units, and units x tag price. Amount is the default. */
+  function slvSeries(money_) {
+    return SLV.map(function (k) {
+      return { name: k, color: SLVC[k],
+               vals: WKD.map(function (w) {
+                 return sum(S.filter(function (x) { return x.sleeve === k; })
+                   .map(function (x) { return (x.weeks[w] || 0) * (money_ ? x.price : 1); }));
+               }) };
+    });
+  }
+  var seriesQ = slvSeries(false), seriesA = slvSeries(true);
+  /* week-on-week change, measured against the previous week of the FULL season series so the
+     first bar in the window still has something to compare against */
+  var allQ = WK.map(function (w) { return sum(S.map(function (x) { return x.weeks[w] || 0; })); });
+  var allA = WK.map(function (w) { return sum(S.map(function (x) { return (x.weeks[w] || 0) * x.price; })); });
+  var i0 = WK.indexOf(WKD[0]);
+  function wtwOf(all) {
+    return WKD.map(function (w, i) {
+      /* no delta on the launch week: its base is the pre-launch trickle, which prints a
+         meaningless +386% and swamps the rest of the row */
+      if (i === 0) return null;
+      var cur = all[i0 + i], prev = all[i0 + i - 1];
+      return prev ? (cur - prev) / prev * 100 : null;
+    });
+  }
+  var wtwQ = wtwOf(allQ), wtwA = wtwOf(allA);
+  var totW = WKD.map(function (_, i) { return sum(seriesQ.map(function (x) { return x.vals[i]; })); });
+  var totAw = WKD.map(function (_, i) { return sum(seriesA.map(function (x) { return x.vals[i]; })); });
+  /* the sub axis row under each week used to carry avg price; it carries cumulative
+     ST% now - see cumSub below */
+  var h = [];
+
+  var TP = C.tilesProduct || [];
+  h.push(tiles([
+    [TP[0] && TP[0].k || 'Styles / SKUs', M.nStyles + ' / ' + M.nSkus, TP[0] && TP[0].f || ''],
+    [TP[1] && TP[1].k || 'Units sold', n0(M.sold), TP[1] && TP[1].f || WKLAB],
+    [TP[2] && TP[2].k || 'Sales value', money(M.amt), TP[2] && TP[2].f || ''],
+    [TP[3] && TP[3].k || 'Sell-through', pc(M.st), TP[3] && TP[3].f || ('on ' + n0(M.rcvd) + ' received')],
+    [TP[4] && TP[4].k || 'Stock on floor', n0(M.rcvd - M.sold), TP[4] && TP[4].f || ''],
+    [TP[5] && TP[5].k || 'Share of category',
+     pc(share(M.sold, sum(WK.map(function (w) { return (M.teeWk || {})[w] || 0; })))),
+     TP[5] && TP[5].f || '']
+  ]));
+
+  h.push(eyebrow(C.eyebrowTrend || ('Weekly trend · since the ' + DROPW + ' launch')));
+  var disp = (M.display || [])[0];
+  /* cumulative sell-through at the end of each week in the window: everything sold from
+     W25 up to and including that week, over total received. The last point ties to the headline. */
+  var cumST = WKD.map(function (w) {
+    var upto = WK.slice(0, WK.indexOf(w) + 1);
+    return share(sum(upto.map(function (x) { return sum(S.map(function (y) { return y.weeks[x] || 0; })); })), M.rcvd);
+  });
+  /* the cumulative ST line chart used to sit beside the bars; it restated one number a
+     week, so those numbers now ride under the week labels and the bars take the row */
+  var cumSub = cumST.map(function (v) { return pc(v, 0); });
+  h.push('<div class="card"><div class="trendrow' + (disp ? '' : ' nodisp') + '">' +
+    (disp ? '<figure class="disp"><img loading="lazy" src="' + esc(disp.img) + '" alt="In-store display">' +
+      '<figcaption>' + esc(disp.store) + ' ' + esc(C.displayCaption || '') + '</figcaption></figure>' : '') +
+    '<div class="trendmain">' +
+    '<div><h3 style="font-size:15px;color:var(--cocoa-deep);margin-bottom:2px">' + esc(C.trendTitle || '') + '</h3>' +
+
+    '<div class="chips">' +
+    '<button class="chip on" data-tg="amt">Sold amount</button>' +
+    '<button class="chip" data-tg="qty">Sold qty</button></div>' +
+    '<div data-tgpane="amt">' + legend(SLV, SLVC) +
+    stackChart(WKD, seriesA, { sub: cumSub, subRow: 'CUM ST%', subColor: 'var(--st)',
+      h: 350, w: 980, money: true, wtw: wtwA }) + '</div>' +
+    '<div data-tgpane="qty" hidden>' + legend(SLV, SLVC) +
+    stackChart(WKD, seriesQ, { sub: cumSub, subRow: 'CUM ST%', subColor: 'var(--st)',
+      h: 350, w: 980, wtw: wtwQ }) + '</div></div>' +
+    '</div></div>');
+
+  h.push(eyebrow(C.eyebrowStyle || 'By style · sold quantity and sell-through'));
+  h.push('<div class="card">' +
+    '<div class="scrollx"><table><thead><tr>' +
+    '<th style="min-width:118px">Colours</th><th>Style</th><th>Launch</th><th>Rcvd</th>' +
+    '<th>Sold</th><th style="min-width:150px">Sell-through</th><th>Sales</th><th>SOH</th>' +
+    '<th>Key customer</th></tr></thead><tbody>' +
+    srt.map(function (s) {
+      return '<tr><td style="text-align:left">' +
+        '<div class="cim">' + s.colors.map(function (c) {
+          return '<span class="zm" data-img="' + esc(c.img) + '" data-cap="' +
+            esc(s.name + ' · ' + c.name + ' ' + c.code + ' · ' + n0(c.sold) + ' pcs · ST ' + pc(c.st)) + '">' +
+            '<img loading="lazy" src="' + esc(c.img) + '" alt="' + esc(c.name) + '"></span>';
+        }).join('') + '</div></td>' +
+        '<td class="nm" style="min-width:210px"><b>' + esc(s.name) + '</b>' + champ(s.code) +
+        '<div class="mini">' + esc(s.code) + ' · HK$' + n0(s.price) + '</div>' +
+        '<div class="bub"><span class="fit">' + esc(s.fit) + '</span><span class="len" style="background:' +
+        LENC[s.length] + '1f;color:' + LENC[s.length] + '">' + esc(s.length) + '</span></div></td>' +
+        '<td>' + esc(s.launch ? s.launch.slice(5).replace('-', '/') : '–') + '<div class="mini">' + esc(s.firstWk) + '</div></td>' +
+        '<td>' + n0(s.rcvd) + '</td><td><b>' + n0(s.sold) + '</b></td>' +
+        '<td>' + bar(s.st, 100, stCol(s.st), pc(s.st)) + '</td>' +
+        '<td>' + money(s.amt) + '</td><td>' + n0(s.soh) + '</td>' +
+        '<td>' + (function () {
+          var pr = styleProf[s.code];
+          if (!pr) return '<span class="mini">\u2013</span>';
+          return '<span class="arch" style="background:' + ARCHC3[pr.reg] + '1f;color:' + ARCHC3[pr.reg] +
+            '">' + esc(pr.label) + '</span><div class="mini">' + pc(pr.pct) + ' of its units</div>';
+        })() + '</td></tr>';
+    }).join('') +
+    '<tr class="tot"><td></td><td class="nm">TOTAL</td><td></td><td>' + n0(M.rcvd) + '</td><td>' + n0(M.sold) +
+    '</td><td>' + pc(M.st) + '</td><td>' + money(M.amt) + '</td><td>' + n0(M.rcvd - M.sold) + '</td>' +
+    '<td></td></tr>' +
+    '</tbody></table></div>' +
+    '</div>');
+
+  h.push(eyebrow(C.eyebrowColour || 'By colour, by length, by sleeve'));
+  function cohBlock(title, rowsIn, cols) {
+    return '<div><h4 style="font-size:12px;margin-bottom:10px;color:var(--cocoa-deep)">' + esc(title) + '</h4>' +
+      '<table><thead><tr><th>' + esc(title.split(' ').pop()) + '</th><th>Sty</th><th>Rcvd</th><th>Sold</th><th>ST%</th></tr></thead><tbody>' +
+      rowsIn.map(function (r) {
+        var st = share(r.sold, r.rcvd);
+        return '<tr><td class="nm" style="min-width:76px"><span class="tag" style="background:' + cols[r.k] + '1f;color:' + cols[r.k] + '">' + esc(r.k) + '</span></td>' +
+          '<td>' + r.n + '</td><td>' + n0(r.rcvd) + '</td><td><b>' + n0(r.sold) + '</b></td>' +
+          '<td style="color:' + stCol(st) + ';font-weight:800;font-size:14px">' + pc(st) + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+  var mxC = COLAGG[0].sold;
+  h.push('<div class="grid g23">');
+  h.push('<div class="card"><h3>By colour</h3>' +
+    '<div class="scrollx"><table><thead><tr><th>Colour</th><th>SKUs</th><th>Rcvd</th>' +
+    '<th style="min-width:132px">Sold</th><th>ST%</th><th style="min-width:132px">Sales share</th><th>SOH</th></tr></thead><tbody>' +
+    COLAGG.map(function (c) {
+      var sh = share(c.amt, TOT_AMT);
+      return '<tr><td class="nm"><span style="display:inline-block;width:15px;height:15px;border-radius:50%;background:' + c.hex +
+        ';border:1px solid rgba(74,54,42,.25);vertical-align:-3px;margin-right:8px"></span><b>' + esc(c.name) + '</b>' +
+        '<span class="mini"> ' + esc(c.code) + '</span></td>' +
+        '<td>' + c.nsku + '</td><td>' + n0(c.rcvd) + '</td>' +
+        '<td>' + bar(c.sold, mxC, c.barHex) + '</td>' +
+        '<td style="color:' + stCol(c.st) + ';font-weight:800">' + pc(c.st) + '</td>' +
+        '<td>' + bar(sh, 100, 'var(--cocoa)', pc(sh)) + '</td><td>' + n0(c.rcvd - c.sold) + '</td></tr>';
+    }).join('') + '</tbody></table></div>' +
+    '</div>');
+
+  h.push('<div class="card">' +
+    cohBlock('By length', allLen, LENC) +
+    '<div style="height:18px"></div>' +
+    cohBlock('By sleeve', allSlv, SLVC) +
+    '</div>');
+  h.push('</div>');
+
+  /* the Length x sleeve matrix and the neckline/hem table were removed on request - the
+     by-length and by-sleeve cards above carry the same read. */
+
+  var worst = S.filter(function (s) { return s.st < 20; });
+  var stuck = sum(worst.map(function (s) { return (s.rcvd - s.sold) * s.price; }));
+  var wkSum = sum(WK.map(function (w) { return sum(S.map(function (s) { return s.weeks[w] || 0; })); }));
+  h.push(readC(C.readProduct));
+  return h.join('');
+}
+
+/* ================================================================== TAB 2 - store */
+function tabStore() {
+  /* Doors are compared from the main launch week onward. Earlier weeks both penalise any
+     door that was shut for part of the season and add pre-launch noise, so every
+     aggregation on this tab goes through inSW(). Set the window in meta.storeWeeks. */
+  var SWK = (M.storeWeeks || ['W30', 'W31', 'W32', 'W33']);
+  var SWSET = {};
+  SWK.forEach(function (w) { SWSET[w] = 1; });
+  var SWLAB = SWK[0] + '\u2013' + SWK[SWK.length - 1];
+  function inSW(r) { return !!SWSET[r[RW]]; }
+  var g = rAgg(function (r) { return r[RS]; }, inSW);
+  var stores = Object.keys(g).sort(function (a, b) { return g[b].q - g[a].q; });
+  var totQ = sum(stores.map(function (s) { return g[s].q; }));
+  var totA = sum(stores.map(function (s) { return g[s].a; }));
+  var mx = g[stores[0]].q;
+  function sub(f) { var o = {}; stores.forEach(function (s) { o[s] = rAgg(f, function (r) { return r[RS] === s && inSW(r); }); }); return o; }
+  var bySl = sub(function (r) { return SMAP[r[RST]].sleeve; });
+  var byRg = sub(function (r) { return r[RR]; });
+  var byLn = sub(function (r) { return SMAP[r[RST]].length; });
+  var h = [];
+
+
+  var MIX = M.storeMix || {}, CH = M.chainMix || {}, CR = M.corr || {};
+  /* CR.best is the penetration ranking on value, computed in the builder */
+  var bestDoor = (CR.best || [])[0];
+  var TS = C.tilesStore || [];
+  h.push(tiles([
+    [TS[0] && TS[0].k || 'Top door', stores[0],
+     n0(g[stores[0]].q) + ' pcs · ' + pc(share(g[stores[0]].q, totQ))],
+    [TS[1] && TS[1].k || 'Top 5 doors',
+     pc(share(sum(stores.slice(0, 5).map(function (x) { return g[x].q; })), totQ)),
+     TS[1] && TS[1].f || ''],
+    [TS[2] && TS[2].k || 'Strongest converter', bestDoor || '–',
+     bestDoor ? pc((MIX[bestDoor] || {}).wellOfWomenAmt || 0) + ' vs ' + pc(CH.wellOfWomenAmt) + ' chain' : ''],
+    [TS[3] && TS[3].k || 'Demand sits', (CR.best || []).join(' · '),
+     (CR.best || []).map(function (x) { return pc((MIX[x] || {}).wellOfWomenAmt || 0); }).join(' · ')]
+  ]));
+  var byWomen = stores.slice().filter(function (x) { return MIX[x]; })
+    .sort(function (a, b) { return (MIX[b].womenAmt || 0) - (MIX[a].womenAmt || 0); });
+  /* rank each door on base-category sales and on collection sales, both on value. Comparing
+     the two is the whole point: a collection rank well above the base rank = over-indexing. */
+  var byWell = stores.slice().filter(function (x) { return MIX[x]; })
+    .sort(function (a, b) { return (MIX[b].wellAmt || 0) - (MIX[a].wellAmt || 0); });
+  var rkW = {}, rkL = {};
+  byWomen.forEach(function (x, i) { rkW[x] = i + 1; });
+  byWell.forEach(function (x, i) { rkL[x] = i + 1; });
+  /* top 5 of each ranking reads as a filled circle; 6th onward stays quiet text */
+  function rankBubble(n, tone) {
+    if (n <= 5) return '<span class="rkb" style="background:' + tone + '">' + n + '</span>';
+    return '<span class="rkn">#' + n + '</span>';
+  }
+  var ARCH = M.storeArch || {};
+  var ARCHC = { 'Local': '#6B4F3F', 'Tourist': '#B07A4A' };
+  var nTour = stores.filter(function (x) { return (ARCH[x] || {}).reg === 'Tourist'; }).length;
+  var nLoc = stores.filter(function (x) { return (ARCH[x] || {}).reg === 'Local'; }).length;
+  var archMid = stores.filter(function (x) { return (ARCH[x] || {}).band === 'Mid'; }).length;
+  var archOld = stores.filter(function (x) { return (ARCH[x] || {}).label === 'Local-Old'; });
+  /* region mix rendered as one stacked bar per door, share printed inside each band */
+  var mxWomen = Math.max.apply(null, stores.map(function (x) { return (MIX[x] || {}).womenAmt || 0; }).concat([1]));
+  /* the door's base-category sales as the track with its collection slice filled in - both
+     scaled to the biggest base business, so bars are comparable across doors */
+  function womenBar(st) {
+    var m2 = MIX[st] || {};
+    var pen = m2.wellOfWomenAmt || 0;
+    var wTot = (m2.womenAmt || 0) / mxWomen * 100;
+    var wWel = (m2.wellAmt || 0) / mxWomen * 100;
+    var col = pen >= 10 ? 'var(--good)' : pen <= 7 ? 'var(--bad)' : 'var(--cocoa)';
+    return '<div class="wtrack" title="' + esc(st + ' \u2014 base ' + money(m2.womenAmt || 0) +
+      ', collection ' + money(m2.wellAmt || 0) + ' = ' + pc(pen)) + '">' +
+      '<span class="tot" style="width:' + wTot.toFixed(2) + '%"></span>' +
+      '<span class="wel" style="width:' + Math.max(wWel, 0.7).toFixed(2) + '%;background:' + col + '"></span>' +
+      '<b style="' + (wTot > 64 ? 'right:0;padding-right:8px;padding-left:0;justify-content:flex-end'
+                                : 'left:' + wTot.toFixed(2) + '%') + '">' + money(m2.womenAmt || 0) + '</b></div>';
+  }
+  function regBar(st) {
+    var t = g[st].q || 1;
+    return '<div class="rbar">' + REGS.map(function (rg) {
+      var w = share(qOf(byRg[st], rg), t);
+      if (w <= 0) return '';
+      return '<span title="' + esc(st + ' — ' + rg + ' ' + pc(w)) + '" style="width:' + w.toFixed(2) +
+        '%;background:' + REGC[rg] + '">' + (w >= 11 ? pc(w, 0) : '') + '</span>';
+    }).join('') + '</div>';
+  }
+  var SC = C.storeCols || {};
+  h.push('<div class="card"><h3>' + esc(C.storeTableTitle || 'Store performance') + '</h3>' +
+    '<div class="cs">Receipt-line, ' + SWLAB + '.</div>' +
+    legend(REGS, REGC) +
+    '<div class="scrollx"><table><thead><tr><th>Store</th>' +
+    '<th style="min-width:120px">' + (SC.units || 'Collection units') + '</th>' +
+    '<th>' + (SC.sales || 'Collection<br>sales') + '</th>' +
+    '<th style="min-width:184px">' + (SC.base || 'Base category sales') + '<br>' +
+    '<span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:9.5px">' +
+    (SC.baseNote || 'collection slice filled in') + '</span></th>' +
+    '<th>' + (SC.basePct || 'Base %<br>of RTW sales') + '</th>' +
+    '<th>' + (SC.pen || 'Collection %<br>of base sales') + '</th>' +
+    '<th>' + (SC.baseRank || 'Base<br>rank') + '</th>' +
+    '<th>' + (SC.penRank || 'Collection<br>rank') + '</th>' +
+    '<th style="min-width:112px">Region mix</th>' +
+    '</tr></thead><tbody>' +
+    stores.map(function (st) {
+      var a = ARCH[st] || {};
+      var m2 = MIX[st] || {};
+      var pen = m2.wellOfWomenAmt || 0;
+      var idx = CH.wellOfWomenAmt ? pen / CH.wellOfWomenAmt * 100 : 0;
+      return '<tr><td class="nm" style="min-width:112px"><b style="font-size:13.5px">' + esc(st) + '</b>' +
+        ' <span class="arch" style="background:' + (ARCHC[a.reg] || '#CDBFAC') + '1f;color:' +
+        (ARCHC[a.reg] || '#6E6156') + '">' + esc(a.label || '\u2013') + '</span>' +
+        '<div class="mini">' + (a.pct != null ? pc(a.pct, 0) + ' of door' : '') + '</div></td>' +
+        '<td>' + bar(g[st].q, mx, 'var(--cocoa)') + '</td>' +
+        '<td>' + money(g[st].a) + '</td>' +
+        '<td>' + womenBar(st) + '</td>' +
+        '<td style="font-weight:700">' + pc(m2.womenPctAmt || 0) + '</td>' +
+        '<td style="font-weight:800;font-size:14px;color:' +
+        (idx >= 115 ? 'var(--good)' : idx <= 85 ? 'var(--bad)' : 'var(--ink)') + '">' + pc(pen) + '</td>' +
+        '<td class="rk2">' + rankBubble(rkW[st], 'var(--clay)') + '</td>' +
+        '<td class="rk2">' + rankBubble(rkL[st], 'var(--cocoa)') +
+        (function () {
+          var d = rkW[st] - rkL[st];     // positive = sells the collection better than its size implies
+          if (!d) return '<div class="mini">in line</div>';
+          return '<div class="mini" style="color:' + (d > 0 ? 'var(--good)' : 'var(--bad)') + '">' +
+            (d > 0 ? '+' : '') + d + ' vs size</div>';
+        })() + '</td>' +
+        '<td>' + regBar(st) + '</td></tr>';
+    }).join('') +
+    '<tr class="tot"><td class="nm">TOTAL</td><td>' + n0(totQ) + ' pcs</td><td>' + money(totA) + '</td>' +
+    '<td>' + money(CH.womenAmt) + '</td><td>' + pc(CH.womenPctAmt) + '</td><td>' + pc(CH.wellOfWomenAmt) + '</td>' +
+    '<td>' + byWomen.length + ' doors</td><td>' + byWell.length + ' doors</td><td>' +
+    REGS.map(function (rg) { return esc(rg) + ' ' + pc(share(sum(stores.map(function (x) { return qOf(byRg[x], rg); })), totQ), 0); }).join(' · ') +
+    '</td></tr></tbody></table></div>' +
+    '</div>');
+
+  /* the standalone comparison chart is folded into the table above; only its reading survives */
+  var byW = stores.slice().filter(function (x) { return MIX[x]; })
+    .sort(function (a, b) { return (MIX[b].womenAmt || 0) - (MIX[a].womenAmt || 0); });
+  var chainPen = CH.wellOfWomenAmt || 0;
+  var half = Math.floor(byW.length / 2);
+  function penOf(list) {
+    var w = sum(list.map(function (x) { return MIX[x].womenAmt || 0; }));
+    var l = sum(list.map(function (x) { return MIX[x].wellAmt || 0; }));
+    return share(l, w);
+  }
+  var bigPen = penOf(byW.slice(0, half)), smallPen = penOf(byW.slice(half));
+  var rr = CR.mixVsPen_r || 0;
+
+  h.push('<div class="card"><h3>' + esc(C.storeCardTitle || '') + '</h3>' +
+    notes(C.storeNotes) +
+    '<div class="foot">' + (C.storeFoot || '') + '</div></div>');
+
+  h.push('<div class="grid g2">');
+  h.push('<div class="card"><h3>' + esc(C.sleeveMixTitle || 'Sleeve mix by door') + '</h3>' +
+    legend(SLV, SLVC) + compRows(stores.map(function (s) {
+      var v = {}; SLV.forEach(function (k) { v[k] = qOf(bySl[s], k); });
+      return { name: s, v: v };
+    }), SLV, SLVC) + '</div>');
+  h.push('<div class="card"><h3>' + esc(C.lengthMixTitle || 'Length mix by door') + '</h3>' +
+    legend(LENS, LENC) + compRows(stores.map(function (s) {
+      var v = {}; LENS.forEach(function (k) { v[k] = qOf(byLn[s], k); });
+      return { name: s, v: v };
+    }), LENS, LENC) + '</div>');
+  h.push('</div>');
+
+  h.push(readC(C.readStore));
+  return h.join('');
+}
+
+/* ================================================================== TAB 3 - customer & combo */
+function tabCustomer() {
+  var byReg = rAgg(function (r) { return r[RR]; });
+  var byAge = rAgg(function (r) { return r[RA]; });
+  var byGen = rAgg(function (r) { return r[RG]; });
+  var bySize = rAgg(function (r) { return r[RZ]; });
+  var totQ = M.rcQty;
+  var mat = rAgg(function (r) { return r[RR] + '|' + r[RA]; });
+  var h = [];
+
+  var TC = C.tilesCustomer || [];
+  h.push(tiles([
+    [TC[0] && TC[0].k || 'Female', pc(share(qOf(byGen, 'Female'), totQ)),
+     n0(qOf(byGen, 'Female')) + ' of ' + n0(totQ) + ' pcs'],
+    [TC[1] && TC[1].k || REGS[0], pc(share(qOf(byReg, REGS[0]), totQ)),
+     n0(qOf(byReg, REGS[0])) + ' pcs'],
+    [TC[2] && TC[2].k || REGS[1], pc(share(qOf(byReg, REGS[1]), totQ)),
+     n0(qOf(byReg, REGS[1])) + ' pcs'],
+    [TC[3] && TC[3].k || 'Core age band', pc(share(qOf(byAge, AGES[2]), totQ)), TC[3] && TC[3].f || ''],
+    [TC[4] && TC[4].k || (SIZES[0] + ' + ' + SIZES[1]),
+     pc(share(qOf(bySize, SIZES[0]) + qOf(bySize, SIZES[1]), totQ)),
+     TC[4] && TC[4].f || ''],
+    [TC[5] && TC[5].k || 'Units per receipt', String(B.upt), money(B.atv) + ' average ticket']
+  ]));
+
+  h.push(eyebrow(C.eyebrowWho || 'Who is buying'));
+  h.push('<div class="grid g23">');
+  h.push('<div class="card"><h3>Region × age</h3>' +
+    '<div class="scrollx"><table><thead><tr><th>Region</th>' + AGES.map(function (a) { return '<th>' + esc(a) + '</th>'; }).join('') +
+    '<th>Total</th><th>Share</th></tr></thead><tbody>' +
+    REGS.map(function (rg) {
+      var rt = sum(AGES.map(function (a) { return qOf(mat, rg + '|' + a); }));
+      return '<tr><td class="nm"><span class="tag" style="background:' + REGC[rg] + '1f;color:' + REGC[rg] + '">' + esc(rg) + '</span></td>' +
+        AGES.map(function (a) {
+          var q = qOf(mat, rg + '|' + a), s = share(q, totQ);
+          var al = Math.min(0.92, s / 26);
+          /* the muted grey of .mini disappeared once the cell shading got dark - flip to cream */
+          var lt = al > 0.42;
+          return '<td style="background:rgba(107,79,63,' + al.toFixed(3) + ')' + (lt ? ';color:#FBF8F3' : '') + '">' +
+            '<b>' + n0(q) + '</b><div class="mini"' + (lt ? ' style="color:#E9DCC9"' : '') + '>' + pc(s, 0) + '</div></td>';
+        }).join('') + '<td><b>' + n0(rt) + '</b></td><td>' + pc(share(rt, totQ)) + '</td></tr>';
+    }).join('') +
+    '<tr class="tot"><td class="nm">TOTAL</td>' + AGES.map(function (a) {
+      return '<td>' + n0(qOf(byAge, a)) + '<div class="mini">' + pc(share(qOf(byAge, a), totQ), 0) + '</div></td>';
+    }).join('') + '<td>' + n0(totQ) + '</td><td>100.0%</td></tr></tbody></table></div>' +
+    '<div style="margin-top:20px">' + lineChart(WKD, REGS.map(function (rg) {
+      var gg = rAgg(function (r) { return r[RW]; }, function (r) { return r[RR] === rg; });
+      return { name: rg, color: REGC[rg], vals: WKD.map(function (w) { return aOf(gg, w); }) };
+    }), { h: 190, w: 600, money: true }) + '</div>' + legend(REGS, REGC) +
+    '<div class="foot">' + esc(C.regionFoot || '') + ' ' + WKDLAB + '</div></div>');
+
+  h.push('<div class="card"><h3>Size curve</h3>' +
+    legend(SIZES, SZC) +
+    compRows([{ name: 'All buyers', v: (function () { var v = {}; SIZES.forEach(function (z) { v[z] = qOf(bySize, z); }); return v; })() }]
+      .concat(LENS.filter(function (L) { return byLen[L]; }).map(function (L) {
+        var gg = rAgg(function (r) { return r[RZ]; }, function (r) { return SMAP[r[RST]].length === L; });
+        var v = {}; SIZES.forEach(function (z) { v[z] = qOf(gg, z); });
+        return { name: L, sub: 'length', v: v };
+      }))
+      .concat(REGS.slice(0, 2).map(function (rg) {
+        var gg = rAgg(function (r) { return r[RZ]; }, function (r) { return r[RR] === rg; });
+        var v = {}; SIZES.forEach(function (z) { v[z] = qOf(gg, z); });
+        return { name: rg, sub: 'region', v: v };
+      })), SIZES, SZC) +
+    notes(C.sizeNotes) + '</div>');
+  h.push('</div>');
+
+  function top5(filt) {
+    var gg = rAgg(function (r) { return r[RST] + '|' + r[RC]; }, filt);
+    return Object.keys(gg).map(function (k) {
+      var p = k.split('|');
+      return { s: SMAP[p[0]], c: CMAP[p[0] + '-' + p[1]], q: gg[k].q };
+    }).sort(function (a, b) { return b.q - a.q; }).slice(0, 5);
+  }
+  /* one compact row per segment - five panels of full-size cards ran to two screens */
+  var LIFT = (K.lift || {});
+  function segRow(label, note, filt, accent, segKey) {
+    var t = top5(filt);
+    var tq = sum(R.filter(function (r) { return !filt || filt(r); }).map(function (r) { return r[RQ]; }));
+    /* standout = the SKU in this top five that over-indexes hardest against the all-buyer mix */
+    var best = -1, bestL = 1.15;
+    t.forEach(function (x, i2) {
+      var lf = LIFT[segKey + '|' + x.s.code + '-' + x.c.code] || 0;
+      if (lf > bestL) { bestL = lf; best = i2; }
+    });
+    return '<div class="seg"><div class="sgl"><div class="n">' + esc(label) + '</div>' +
+      '<div class="s">' + esc(note) + '</div><div class="q">' + n0(tq) + ' pcs</div></div>' +
+      '<div class="sgi">' + t.map(function (x, i2) {
+        var lf = LIFT[segKey + '|' + x.s.code + '-' + x.c.code] || 0;
+        var isStar = i2 === best;
+        return '<div class="si' + (isStar ? ' star' : '') + '">' +
+          (isStar ? '<div class="stx">stands out · ' + lf.toFixed(1) + '× the average</div>' : '') +
+          '<div class="im"><span class="rk">' + (i2 + 1) + '</span>' +
+          '<img loading="lazy" src="' + esc(x.c.img) + '" alt="' + esc(x.s.name) + '"></div>' +
+          '<div class="tx"><div class="n">' + esc(x.s.name) + '</div>' +
+          '<div class="c"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:' + x.c.hex +
+          ';border:1px solid rgba(74,54,42,.25);vertical-align:-1px;margin-right:4px"></span>' + esc(x.c.name) + ' · ' + esc(x.s.code) + '</div>' +
+          '<div class="v"><b style="color:' + accent + '">' + n0(x.q) + '</b> pcs · ' + pc(share(x.q, tq), 0) + ' of seg</div>' +
+          '</div></div>';
+      }).join('') + '</div></div>';
+  }
+  h.push(eyebrow(C.eyebrowTop5 || 'Top 5 SKUs by segment'));
+  h.push('<div class="card"><h3>' + esc(C.segCardTitle || '') + '</h3>' +
+
+    REGS.slice(0, 2).map(function (rg) { return segRow(rg, 'region on receipt', function (r) { return r[RR] === rg; }, REGC[rg], 'reg|' + rg); }).join('') +
+    ['18-29', '30-40', '>40'].map(function (a) { return segRow('Age ' + a, 'member age band', function (r) { return r[RA] === a; }, AGEC[a], 'age|' + a); }).join('') +
+    '<div class="foot">' + (C.segFoot || '') + '</div></div>');
+
+  /* ---------------- buying combo ---------------- */
+  h.push(eyebrow(C.eyebrowCombo || 'Buying combo · what else is in the same receipt'));
+  var recTot = (K.soloReceipts || 0) + (K.multiReceipts || 0);
+  function itemBox(code, name, isW, subc, season, plus) {
+    var im = isW ? (SMAP[code] ? SMAP[code].img : '') : ((K.img || {})[code] || '');
+    var nm = isW ? SMAP[code].name : titleCase(name);
+    return '<div class="it"><span class="plus">' + (plus ? '+' : '') + '</span><div class="im">' +
+      (im ? '<img loading="lazy" src="' + esc(im) + '" alt="">' : '<span class="ph">' + esc(subc || '?') + '</span>') + '</div>' +
+      '<div class="tx"><div class="n">' + esc(nm) +
+      (isW ? ' <span class="pill" style="font-size:9px;padding:1px 7px;vertical-align:1px">' + esc(M.collectionTag || 'IN COLLECTION') + '</span>' : '') + '</div>' +
+      '<div class="c">' + esc(code) + (subc ? ' · ' + esc(subc) : '') + (season && !isW ? ' · ' + esc(season) : '') + '</div></div></div>';
+  }
+  var ARCHC2 = { 'Local': '#6B4F3F', 'Tourist': '#B07A4A' };
+  function profBub(p) {
+    if (!p || !p.prof) return '';
+    var pr = p.prof;
+    return '<div class="pb" style="background:' + ARCHC2[pr.reg] + '1a;color:' + ARCHC2[pr.reg] + '">' +
+      esc(pr.label) + ' <b>' + pc(pr.pct, 0) + '</b></div>';
+  }
+  /* two stacked rows per combo with the + leading the second, then a footer line. Fixed
+     structure keeps every card the same height whatever the product names do. */
+  function comboList(list) {
+    return '<div class="combo">' + list.map(function (p, i) {
+      return '<div class="cb"><div class="pos">' + (i + 1) + '</div><div class="stack">' +
+        itemBox(p.a, p.aName, p.aIn, p.aSub, p.aSeason, false) +
+        itemBox(p.b, p.bName, p.bIn, p.bSub, p.bSeason, true) +
+        '<div class="cfoot">' + profBub(p) +
+        '<span class="v">' + n0(p.n) + '</span><span class="k">receipts</span></div>' +
+        '</div></div>';
+    }).join('') + '</div>';
+  }
+  h.push('<div class="grid g3">');
+
+  h.push('<div class="card"><h3>' + esc(C.comboTitle || 'Top 5 buying combos') + '</h3>' +
+    '<div class="cs">' + n0(K.multiReceipts) + ' of ' + n0(recTot) + ' receipts (' +
+    pc(share(K.multiReceipts, recTot)) + ') carried more than one style. ' + (C.comboSub || '') + '</div>' +
+    comboList((K.all || []).slice(0, 5)) + '</div>');
+
+  h.push('<div class="card"><h3>' + esc(C.insideTitle || 'Inside the collection') + '</h3>' +
+    '<div class="cs">' + (C.insideSub || '') + '</div>' +
+    comboList((K.inside || []).slice(0, 5)) + '</div>');
+
+  h.push('<div class="card"><h3>' + esc(C.accTitle || 'Collection + accessories') + '</h3>' +
+    '<div class="cs"><b>' + n0(K.accReceipts) + ' of ' + n0(recTot) + ' receipts (' +
+    pc(share(K.accReceipts, recTot)) + ') also carry an accessory.</b> ' + (C.accSub || '') + '</div>' +
+    comboList((K.acc || []).slice(0, 5)) +
+    '</div>');
+
+  h.push('</div>');
+
+  var att = (K.attachSub || []);
+  var attTot = sum(att.map(function (x) { return x[1]; }));
+  /* sub-category code -> readable name; extend in meta.subCatNames for other ranges */
+  var SUBN = M.subCatNames || { TS: 'T-shirt', WP: 'Woven pant', TO: 'Sleeveless top', SM: 'Swim',
+               SP: 'Sweat pant', SK: 'Skirt', WJ: 'Windbreaker', DP: 'Denim pant', PT: 'Pant', PQ: 'Polo' };
+  var pal = ['#6B4F3F', '#A98B72', '#C98A3E', '#8A9880', '#CDBFAC', '#B07A4A', '#5E4433', '#E0D2BE', '#9A7550', '#D8C6B2'];
+  var attC = {}, attN = {}, attV = {};
+  att.forEach(function (x, i) { attC[x[0]] = pal[i % pal.length]; attN[x[0]] = SUBN[x[0]] || x[0]; attV[x[0]] = x[1]; });
+  h.push('<div class="card"><h3>' + esc(C.attachTitle || 'What gets attached, by sub-category') + '</h3>' +
+    legend(att.map(function (x) { return x[0]; }), attC, attN) +
+    compRows([{ name: C.attachRow || 'Attachment mix', v: attV }], att.map(function (x) { return x[0]; }), attC, attN) +
+    '<div class="foot">' + pc(share(att.length ? att[0][1] : 0, attTot), 0) + ' of attachments are another <b>' +
+    (att.length ? attN[att[0][0]] : '') + '</b> and ' + pc(share(att.length > 1 ? att[1][1] : 0, attTot), 0) +
+    ' a <b>' + (att.length > 1 ? attN[att[1][0]] : '') + '</b>. ' + (C.attachFoot || '') + '</div></div>');
+
+  h.push(readC(C.readCustomer));
+  return h.join('');
+}
+
+/* ================================================================== TAB 4 - VOC */
+function doorsWith(styleCode, topic, terms) {
+  var v = (V.styles || []).filter(function (x) { return x.style === styleCode; })[0];
+  if (!v) return [];
+  var t = v.topics.filter(function (x) { return x.topic === topic; })[0];
+  if (!t) return [];
+  return t.notes.filter(function (nn) {
+    return terms.some(function (w) { return nn[1].indexOf(w) >= 0; });
+  }).map(function (nn) { return nn[0]; });
+}
+function doorsIn(notes, terms) {
+  return (notes || []).filter(function (nn) {
+    return terms.some(function (w) { return nn[1].indexOf(w) >= 0; });
+  }).map(function (nn) { return nn[0]; });
+}
+function topicCount(styleCode, topic) {
+  var v = (V.styles || []).filter(function (x) { return x.style === styleCode; })[0];
+  var t = v && v.topics.filter(function (x) { return x.topic === topic; })[0];
+  return t ? t.notes.length : 0;
+}
+
+function tabVOC() {
+  var h = [];
+  var covered = (V.styles || []).map(function (v) { return v.style; });
+  var missing = S.filter(function (s) { return covered.indexOf(s.code) < 0; });
+  var ranked = (V.styles || []).slice().sort(function (a, b) { return (b.overall || 0) - (a.overall || 0); });
+  /* sales rank is across all nine styles, not just the four the form covered */
+  var salesRank = {};
+  S.slice().sort(function (a, b) { return b.amt - a.amt; }).forEach(function (x, i) { salesRank[x.code] = i + 1; });
+  var byCode = {}; ranked.forEach(function (v) { byCode[v.style] = v; });
+  var serTotal = (V.series && V.series.notes ? V.series.notes.length : 0);
+  var adjTotal = (V.adjacent && V.adjacent.notes ? V.adjacent.notes.length : 0);
+
+  var lsST = share(slSold['Long sleeve'], slRcvd['Long sleeve']);
+
+  var TB = C.tilesVoc || [];
+  h.push(tiles([
+    [TB[0] && TB[0].k || 'VOC week', V.weekLabel, TB[0] && TB[0].f || ''],
+    [TB[1] && TB[1].k || 'Styles covered', covered.length + ' of ' + M.nStyles, TB[1] && TB[1].f || ''],
+    [TB[2] && TB[2].k || 'Doors reporting', String((V.stores || []).length), TB[2] && TB[2].f || ''],
+    [TB[3] && TB[3].k || 'Comments read',
+     String(sum((V.styles || []).map(function (v) {
+       return sum(v.topics.map(function (t) { return t.notes.length; }));
+     })) + serTotal + adjTotal),
+     TB[3] && TB[3].f || ''],
+    [TB[4] && TB[4].k || 'Covered styles’ ST',
+     pc(share(sum(covered.map(function (c) { return SMAP[c].sold; })),
+              sum(covered.map(function (c) { return SMAP[c].rcvd; })))),
+     'vs ' + pc(M.st) + ' collection'],
+    [TB[5] && TB[5].k || 'Their share of sales',
+     pc(share(sum(covered.map(function (c) { return SMAP[c].amt; })), TOT_AMT), 0),
+     TB[5] && TB[5].f || '']
+  ]));
+
+  h.push(eyebrow(C.eyebrowVoc || 'Power ranking · shop score against sell-through'));
+  h.push('<div class="card" style="padding-bottom:14px"><h3>' + esc(C.vocRankTitle || '') + '</h3>' +
+    '<div class="cs">' + esc(V.scoreNote || '') + ' ' + esc(C.vocRankSub || '') + '</div>' +
+    '<div class="rank">' + ranked.map(function (v, i) {
+      var s = SMAP[v.style], sc = v.scores || {};
+      return '<div class="rc"><div class="hd">' +
+        '<div class="pos">' + (i + 1) + '</div>' +
+        '<div class="thumb"><img loading="lazy" src="' + esc(s.img) + '" alt=""></div>' +
+        '<div><div class="ttl">' + esc(s.name) + '</div>' +
+        '<div class="meta">' + esc(s.code) + ' · ' + esc(s.sleeve) + ' · ' + esc(s.fit) + ' · ' + esc(s.length) + ' · HK$' + n0(s.price) +
+        ' · ' + n0(s.sold) + ' / ' + n0(s.rcvd) + ' pcs sold/rcvd' +
+        ' · ST <b style="color:' + stCol(s.st) + '">' + pc(s.st) + '</b></div>' +
+        '<div class="callout">' + esc(v.callout || '') + '</div></div>' +
+        '<div class="scores">' + [['Colour', 'color'], ['Fit', 'fit'], ['Material', 'material'], ['Design', 'design']].map(function (p) {
+          return '<div class="sc"><div class="k">' + p[0] + '</div><div class="v" style="color:' + scCol(sc[p[1]]) + '">' + sc[p[1]] + '</div></div>';
+        }).join('') + '</div>' +
+        '<div class="ov"><div class="v" style="color:' + scCol(v.overall) + '">' + (v.overall || 0).toFixed(1) + '</div><div class="k">Shop score</div></div>' +
+        '<div class="ov"><div class="v" style="color:' + stCol(s.st) + ';font-size:24px">' + pc(s.st) + '</div>' +
+        '<div class="k">Sell-through<br>' + n0(s.sold) + ' / ' + n0(s.rcvd) + '</div></div>' +
+        '<div class="ov"><div class="v" style="font-size:24px;color:var(--cocoa)">#' + salesRank[v.style] + '</div>' +
+        '<div class="k">Sales rank of ' + M.nStyles + '</div></div>' +
+        '</div><div class="body">' +
+        '<div class="why">' + [['Fit &amp; length', 'fit'], ['Material', 'material'], ['Design', 'design'], ['Colour', 'color']].map(function (p) {
+          return '<div><h5>' + p[0] + ' — ' + sc[p[1]] + '/10</h5><p>' + esc((v.why || {})[p[1]] || '') + '</p></div>';
+        }).join('') + '</div>' +
+        '<div class="tags">' + (v.tags || []).map(function (t) { return '<span>' + esc(t.replace(/-/g, ' ')) + '</span>'; }).join('') + '</div>' +
+        /* REV7: the per-door comment lists were removed from the expansion at the user's
+           request; the four why-paragraphs and the tags above carry the read. */
+        '</div></div>';
+    }).join('') + '</div>' +
+    '<div class="hintline">' + esc(C.vocHint || '') + ' ' + (V.stores || []).length + ' doors.</div></div>');
+
+  h.push(eyebrow(C.eyebrowWins || 'Wins and issues'));
+  /* Ranked theme bars: the theme, how many of the reporting doors raised it, and a bar of that
+     share. Specifics live in the row title so the panel stays scannable; issue rows carry the
+     style codes so a theme is traceable to product. */
+  var NDOOR = (V.stores || []).length || 14;
+  function uniq(a) {
+    var o = [];
+    (a || []).forEach(function (x) { if (o.indexOf(x) < 0) o.push(x); });
+    return o;
+  }
+  /* union a term match over every covered style, deduped - a theme spanning three styles must not
+     count the same door three times */
+  function across(topic, terms) {
+    return uniq((V.styles || []).reduce(function (acc, v) {
+      return acc.concat(doorsWith(v.style, topic, terms));
+    }, []));
+  }
+  function wl(items, cls, mark, colr, ttl) {
+    var rows = items.map(function (it) {
+      it.n = uniq(it.doors).length;
+      it.dd = uniq(it.doors);
+      return it;
+    }).sort(function (a, b) { return b.n - a.n; });
+    return '<div class="wi ' + cls + '"><h3><span class="wmk" style="background:' + colr + '">' +
+      mark + '</span>' + esc(ttl) + '</h3><div class="wl2">' +
+      rows.map(function (it) {
+        return '<div class="wr" title="' + esc((it.note || '') +
+          (it.dd.length ? '  — ' + it.dd.join(' ') : '')) + '">' +
+          '<div class="ic">' + it.icon + '</div>' +
+          '<div class="bd"><div class="hd"><span class="lb">' + it.label + '</span>' +
+          '<span class="ct" style="color:' + colr + '">' + it.n + '/' + NDOOR + '</span></div>' +
+          '<div class="tr"><span style="width:' + (it.n / NDOOR * 100).toFixed(1) +
+          '%;background:' + colr + '"></span></div>' +
+          (it.styles && it.styles.length
+            ? '<div class="sc">' + esc(it.styles.join(' · ')) + '</div>' : '') +
+          '</div></div>';
+      }).join('') + '</div></div>';
+  }
+  /* a highlighted block for a thread that runs across several styles */
+  function callout(icon, title, cards) {
+    return '<div class="callout"><h4>' + icon + ' ' + title + '</h4><div class="cocards">' +
+      cards.map(function (c) {
+        return '<div class="cocard"><div class="cc">' + c.icon + ' ' + esc(c.code) + '</div>' +
+          '<div class="cn">' + esc(c.name) + '</div><div class="cq">' + c.quote + '</div></div>';
+      }).join('') + '</div></div>';
+  }
+  /* Themes come from the data: voc.wins / voc.issues, each { icon, label, doors[], styles[], note }.
+     Derive `doors` by matching the comment text with doorsWith() / doorsIn() above, so a count is
+     never hand-tallied, then write the resulting door list into the dataset. */
+  var wins = (V.wins || []).map(function (w) {
+    return { icon: w.icon || '✓', label: esc(w.label || ''), doors: w.doors || [], note: w.note || '' };
+  });
+  var issues = (V.issues || []).map(function (w) {
+    return { icon: w.icon || '!', label: esc(w.label || ''), doors: w.doors || [],
+             styles: w.styles || [], note: w.note || '' };
+  });
+  h.push('<div class="grid g2">' +
+    wl(wins, 'win', '✓', 'var(--good)', C.vocWinsTitle || 'What the doors love') +
+    wl(issues, 'iss', '!', 'var(--bad)', C.vocIssuesTitle || 'Where it is losing sales') + '</div>');
+
+  /* optional highlight block for the one complaint that runs across several styles */
+  if (V.callout && (V.callout.cards || []).length) {
+    h.push(callout(V.callout.icon || '⚠️', esc(V.callout.title || ''), V.callout.cards));
+  }
+
+
+  /* doorsWith() / doorsIn() / topicCount() stay available for deriving door counts
+     from the comment text when you build voc.wins and voc.issues. */
+
+  /* the "styles with no week-32 feedback" card was removed on request */
+
+  h.push(readC(C.readVoc));
+  return h.join('');
+}
+
+/* ------------------------------------------------------------------ boot */
+var TABS = (C.tabs || [
+  ['01', 'Product &amp; sales'],
+  ['02', 'Store performance'],
+  ['03', 'Customer &amp; combo'],
+  ['04', 'Shop VOC']
+]).map(function (t, i) { return [t[0], t[1], [tabProduct, tabStore, tabCustomer, tabVOC][i]]; });
+
+function boot() {
+  /* masthead, filled from meta so the page head is data too */
+  document.getElementById('hdKicker').innerHTML = esc(M.kicker || '');
+  document.getElementById('hdTitle').innerHTML = esc(M.collection || '') +
+    (M.tagline ? '<em>' + esc(M.tagline) + '</em>' : '');
+  document.getElementById('hdSub').innerHTML = (M.subLines || []).join('<br>');
+  document.title = (M.collection || 'RTW collection') + ' — collection case study';
+  var nav = document.getElementById('tabs'), host = document.getElementById('panes');
+  nav.innerHTML = TABS.map(function (t, i) {
+    return '<button data-i="' + i + '" class="' + (i === 0 ? 'on' : '') + '"><span class="n">' + t[0] + '</span>' + t[1] + '</button>';
+  }).join('');
+  host.innerHTML = TABS.map(function (t, i) {
+    return '<section class="tab' + (i === 0 ? ' on' : '') + '" id="pane' + i + '"><div class="wrap" style="padding:0"></div></section>';
+  }).join('');
+  var built = {};
+  function show(i) {
+    Array.prototype.forEach.call(nav.children, function (b, j) { b.className = j === i ? 'on' : ''; });
+    Array.prototype.forEach.call(host.children, function (s, j) { s.className = 'tab' + (j === i ? ' on' : ''); });
+    if (!built[i]) { document.getElementById('pane' + i).firstChild.innerHTML = TABS[i][2](); built[i] = 1; }
+    window.scrollTo(0, 0);
+  }
+  nav.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (b) show(+b.getAttribute('data-i'));
+  });
+  host.addEventListener('click', function (e) {
+    /* chart measure toggles: chips carry data-tg, panes carry data-tgpane */
+    var tg = e.target.closest('[data-tg]');
+    if (tg) {
+      var grp = tg.parentNode, card = grp.parentNode;
+      Array.prototype.forEach.call(grp.querySelectorAll('[data-tg]'), function (b) {
+        b.className = b === tg ? 'chip on' : 'chip';
+      });
+      Array.prototype.forEach.call(card.querySelectorAll('[data-tgpane]'), function (p2) {
+        if (p2.hasAttribute('data-tgpane')) p2.hidden = p2.getAttribute('data-tgpane') !== tg.getAttribute('data-tg');
+      });
+      return;
+    }
+    var z = e.target.closest('.zm');
+    if (z) { showZoom(z, e); return; }
+    var c = e.target.closest('.rc'); if (!c) return;
+    c.className = c.className.indexOf('open') >= 0 ? 'rc' : 'rc open';
+  });
+
+  /* click-to-enlarge: a panel pinned beside the pointer, clamped inside the viewport */
+  var zoomEl = null;
+  function hideZoom() { if (zoomEl) { zoomEl.parentNode.removeChild(zoomEl); zoomEl = null; } }
+  function showZoom(node, ev) {
+    hideZoom();
+    var src = node.getAttribute('data-img'), cap = node.getAttribute('data-cap') || '';
+    if (!src) return;
+    zoomEl = document.createElement('div');
+    zoomEl.className = 'zoomcard';
+    zoomEl.innerHTML = '<img src="' + src + '" alt=""><div class="cap">' + cap +
+      '</div><button class="x" aria-label="close">&times;</button>';
+    document.body.appendChild(zoomEl);
+    var W = 300, H = zoomEl.offsetHeight || 360;
+    var x = ev.clientX + 18, y = ev.clientY - 40;
+    if (x + W > window.innerWidth - 12) x = ev.clientX - W - 18;
+    if (y + H > window.innerHeight - 12) y = window.innerHeight - H - 12;
+    if (y < 12) y = 12;
+    zoomEl.style.left = Math.max(12, x) + 'px';
+    zoomEl.style.top = y + 'px';
+    ev.stopPropagation();
+  }
+  document.addEventListener('click', function (e) {
+    if (zoomEl && !e.target.closest('.zoomcard') && !e.target.closest('.zm')) hideZoom();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideZoom(); });
+  window.addEventListener('scroll', hideZoom, true);
+  show(0);
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body></html>

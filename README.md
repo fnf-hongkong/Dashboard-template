@@ -85,3 +85,29 @@ a small number of zero-data guards are marked `TEMPLATE GUARD` in the source.
 
 F&F staff can view the rendered template here (F&F login required):
 <https://dcsai.fnf.co.kr/server/quick-dashboard/customer-profile-template>
+
+---
+
+## `rtw-collection-case-study/`
+
+**RTW Collection Case Study — a four-tab review of one ready-to-wear capsule, from what sold
+through to what the shops say about it.**
+
+A single self-contained HTML file with no build step and no external requests at all —
+double-click `rtw-collection-case-study/index.html` and it opens.
+
+| Tab | What it shows |
+|---|---|
+| **01 · Product & sales** | Headline tiles, the weekly sold trend by sleeve with cumulative sell-through, a by-style table with colourway thumbnails and fit/length badges, and by-colour / by-length / by-sleeve cuts |
+| **02 · Store performance** | Every door on collection units and sales, its collection sales as a slice of the base business, rank-vs-size bubbles, region mix, and sleeve / length mix per door |
+| **03 · Customer & combo** | Region × age, weekly sales by region, the size curve cut by length and region, top-5 SKUs per segment with an over-indexing flag, same-receipt combos, and attachment by sub-category |
+| **04 · Shop VOC** | Shop score ranked against sell-through, expandable per-style reads, ranked wins and issues with the door count behind each, and a cross-style callout |
+
+Everything renders from one object, `window.__DATA__`, and **all prose lives in `D.copy`** —
+there is not a single sentence in the render script. Fill the object in and the page writes
+itself. Placeholders are written between guillemets, `«like this»`.
+
+`blank_data.js` is the data contract, commented key by key; `data.template.json` is the same
+object as plain JSON; `check.js` renders the page in headless Chrome and fails loudly on a JS
+error, an empty pane or a stray figure. See `rtw-collection-case-study/README.md` for the
+full how-to.
