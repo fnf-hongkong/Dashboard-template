@@ -118,14 +118,14 @@ full how-to.
 
 ---
 
-## `sales-review/`
+## `weekly-sales-review/`
 
-**Sales Review — the daily / weekly / monthly retail sales dashboard for a market, with
+**Weekly Sales Review — the daily / weekly / monthly retail sales dashboard for a market, with
 receipt, IMC and top-seller views.** A blank of the MLB Hong Kong daily board: complete
 layout, toggles, popups and formulas, every business figure removed.
 
 A single self-contained HTML file. No build step, no server, no package install —
-double-click `sales-review/index.html` and it opens.
+double-click `weekly-sales-review/index.html` and it opens.
 
 | Tab | What it shows |
 |---|---|
